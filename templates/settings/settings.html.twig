@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Settings{% endblock %}
+
+{% block body %}
+    <h1>Settings</h1>
+
+    {{ form_start(settingsForm) }}
+    {{ form_row(settingsForm.username) }}
+    {{ form_row(settingsForm.email) }}
+
+    <button type="submit" class="btn">Save</button>
+    {{ form_end(settingsForm) }}
+{% endblock %}
