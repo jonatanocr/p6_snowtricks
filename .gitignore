@@ -21,3 +21,5 @@
 
 ### phpstorm temp files ###
 .idea
+
+.env
