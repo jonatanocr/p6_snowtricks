@@ -8,10 +8,11 @@
     {{ form_start(settingsForm) }}
     {{ form_row(settingsForm.username) }}
     {{ form_row(settingsForm.email) }}
-
     <button type="submit" class="btn">Save</button>
     {{ form_end(settingsForm) }}
 
+
+    {{ form(passwordForm) }}
     <a href="{{ path('delete_user') }}">Delete user</a>
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
