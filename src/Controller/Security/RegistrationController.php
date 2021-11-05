@@ -8,6 +8,7 @@ use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,7 +16,9 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class RegistrationController extends AbstractController
 {
-    #[Route('/register', name: 'app_register')]
+    /**
+     * @Route("/register", name="app_register")
+     */
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasherInterface, MailerInterface $mailer): Response
     {
         $user = new User();
@@ -98,6 +101,25 @@ class RegistrationController extends AbstractController
             UrlGeneratorInterface::ABSOLUTE_URL
         );
         return $url;
+    }
+
+    /**
+     * @Route("/delete_user", name="delete_user")
+     */
+    public function deleteUser(Request $request, UserPasswordHasherInterface $userPasswordHasherInterface, MailerInterface $mailer): Response
+    {
+        $currentUserId = $this->getUser()->getId();
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $entityManager->getRepository(User::class)->find($currentUserId);
+        if ($user === null) {
+            $this->addFlash('danger', 'An error occured ( ⚆ _ ⚆ )');
+        } else {
+            $session = new Session();
+            $session->invalidate();
+            $entityManager->remove($user);
+            $entityManager->flush();
+        }
+        return $this->redirectToRoute('app_homepage');
     }
 
 }
