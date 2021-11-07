@@ -26,6 +26,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotBlank(message="Email can not be blank.")
      * @Assert\Email(
      *     message = "The email '{{ value }}' is not a valid email."
      * )
@@ -44,6 +45,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $password;
 
     /**
+     * @Assert\NotBlank(message="Username can not be blank.")
      * @ORM\Column(type="string", length=255, unique=true)
      */
     private $username;
