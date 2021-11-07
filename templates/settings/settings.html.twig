@@ -5,7 +5,11 @@
 {% block body %}
     <h1>Settings</h1>
 
+    <img id="avatar" src="{{ asset('uploads/users/' ~ app.user.avatarFilename) }}" alt="avatar" width="200">
+
+
     {{ form_start(settingsForm) }}
+    {{ form_row(settingsForm.avatar) }}
     {{ form_row(settingsForm.username) }}
     {{ form_row(settingsForm.email) }}
     <button type="submit" class="btn">Save</button>

@@ -58,6 +58,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $hash;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $avatarFilename;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -174,6 +179,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setHash(string $hash): self
     {
         $this->hash = $hash;
+
+        return $this;
+    }
+
+    public function getAvatarFilename(): ?string
+    {
+        return $this->avatarFilename;
+    }
+
+    public function setAvatarFilename(?string $avatarFilename): self
+    {
+        $this->avatarFilename = $avatarFilename;
 
         return $this;
     }

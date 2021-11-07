@@ -10,11 +10,15 @@ use App\Form\PasswordUpdateFormType;
 use App\Form\SettingsFormType;
 use App\Service\Notification\Notification;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class SettingsController extends AbstractController
 {
@@ -27,7 +31,7 @@ class SettingsController extends AbstractController
     /**
      * @Route("/settings", name="settings")
      */
-    public function updateUser(Request $request, UserPasswordHasherInterface $userPasswordHasherInterface): Response
+    public function updateUser(Request $request, UserPasswordHasherInterface $userPasswordHasherInterface, SluggerInterface $slugger): Response
     {
         $user = new User();
         $entityManager = $this->getDoctrine()->getManager();
@@ -38,8 +42,32 @@ class SettingsController extends AbstractController
         $formPassword = $this->createForm(PasswordUpdateFormType::class, $changePassword);
 
         $formSettings->handleRequest($request);
-
         if ($formSettings->isSubmitted() && $formSettings->isValid()) {
+            $avatarFile = $formSettings->get('avatar')->getData();
+            if ($avatarFile) {
+                $originalFilename = pathinfo($avatarFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $newFilename =  $user->getId().'.'.$avatarFile->guessExtension();
+                $filesystem = new Filesystem();
+                try {
+                    $img_extensions = ['.png', '.jpg', '.jpeg'];
+                    foreach ($img_extensions as $ext) {
+                        if ($filesystem->exists($this->getParameter('users_directory').'/'.$user->getId().$ext)) {
+                            $filesystem->remove($this->getParameter('users_directory').'/'.$user->getId().$ext);
+                        }
+                    }
+                } catch (IOExceptionInterface $exception) {
+                    echo "An error occurred while uploading your image";
+                }
+                try {
+                    $avatarFile->move(
+                        $this->getParameter('users_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+
+                }
+                $user->setAvatarFilename($newFilename);
+            }
             $entityManager->persist($user);
             $entityManager->flush();
             $this->redirectToRoute('settings');
