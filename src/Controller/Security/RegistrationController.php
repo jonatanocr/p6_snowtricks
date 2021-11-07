@@ -3,7 +3,7 @@
 namespace App\Controller\Security;
 
 use App\Entity\User;
-use App\Form\RegistrationFormType;
+use App\Form\Security\RegistrationFormType;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,7 +40,8 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
             $url = $this->getUrl($user);
             $mailController = new MailController($mailer);
-            $mailController->sendVerificationEmail($user->getEmail(), $url, $user->getUsername());
+            $mailController->sendEmail($user->getEmail(), $url, $user->getUsername(),'emailVerification');
+            $this->addFlash('success', 'Your account is now created, check your email inbox to confirm your email address');
             return $this->redirectToRoute('app_homepage');
         }
 
@@ -86,7 +87,7 @@ class RegistrationController extends AbstractController
         } else {
             $url = $this->getUrl($user);
             $mailController = new MailController($mailer);
-            $mailController->sendVerificationEmail($user->getEmail(), $url, $user->getUsername());
+            $mailController->sendEmail($user->getEmail(), $url, $user->getUsername(), 'emailVerification');
             $this->addFlash('success', 'An email with verification link was sent to your address');
         }
         return $this->redirectToRoute('app_homepage');

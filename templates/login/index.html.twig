@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello LoginController!{% endblock %}
+{% block title %}Login{% endblock %}
 
 {% block body %}
 
@@ -20,5 +20,7 @@
 
         <button type="submit">login</button>
     </form>
+
+    <a href="{{ path('reset_password') }}">Forgot your password?</a>
 
 {% endblock %}

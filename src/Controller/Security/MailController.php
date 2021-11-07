@@ -16,15 +16,23 @@ class MailController
         $this->mailer = $mailer;
     }
 
-    public function sendVerificationEmail($to, $url, $username)
+    public function sendEmail($to, $url, $username, $mailType)
     {
-        $subject = 'Welcome to the SnowTricks community!';
-        //$email = (new Email())
+        switch ($mailType) {
+            case "emailVerification":
+                $subject = 'Welcome to the SnowTricks community!';
+                $template = 'emails/emailVerification.html.twig';
+                break;
+            case "resetPassword":
+                $subject = 'Snowtricks, Reset password instructions!';
+                $template = 'emails/resetPasswordInstructions.html.twig';
+                break;
+        }
         $email = (new TemplatedEmail())
             ->from('mailer.ocr@gmail.com')
             ->to($to)
             ->subject($subject)
-            ->htmlTemplate('emails/emailVerification.html.twig')
+            ->htmlTemplate($template)
             ->context([
                 'username' => ucfirst($username),
                 'url' => $url,
