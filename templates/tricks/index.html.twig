@@ -7,7 +7,7 @@
     {% endif %}
     {% for trick in tricks %}
         <h2><a class="nav-link" href="{{ path('trick_display', {id: trick.id} ) }}">{{ trick.name }}</a></h2>
-        
+
         <!-- Button trigger modal -->
         <a data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
             &#128465;

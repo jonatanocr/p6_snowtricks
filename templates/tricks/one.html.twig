@@ -7,5 +7,6 @@
     {% endif %}
     <h2>{{ trick.name }}</h2>
     <p>{{ trick.author.username}} {{ trick.createdDate |format_datetime(locale='en') }}</p>
+    <p>{{ trick.category.name }}</p>
     <p>{{ trick.description }}</p>
 {% endblock %}
