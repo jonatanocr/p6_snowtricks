@@ -1,6 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>SnowTricks {{ variable }}</h1>
+    <h1>SnowTricks</h1>
     <a class="nav-link" href="{{ path('new_trick') }}">+++</a>
+
+    {% for trick in tricks %}
+        <h2>{{ trick.name }}</h2>
+    {% endfor %}
 {% endblock %}
