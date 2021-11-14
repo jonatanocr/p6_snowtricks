@@ -1,0 +1,8 @@
+@import "~bootstrap/scss/bootstrap";
+
+.alert {
+    width:40%;
+    margin: 2em auto;
+    text-align: center;
+    font-weight: bold;
+}
