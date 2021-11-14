@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>SnowTricks</h1>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+
+    {% endif %}
+    <h2>{{ trick.name }}</h2>
+    <p>{{ trick.author.username}} {{ trick.createdDate |format_datetime(locale='en') }}</p>
+    <p>{{ trick.description }}</p>
+{% endblock %}

@@ -2,9 +2,29 @@
 
 {% block body %}
     <h1>SnowTricks</h1>
-    <a class="nav-link" href="{{ path('new_trick') }}">+++</a>
-
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <a class="nav-link" href="{{ path('new_trick') }}">+++</a>
+    {% endif %}
     {% for trick in tricks %}
-        <h2>{{ trick.name }}</h2>
+        <h2><a class="nav-link" href="{{ path('trick_display', {id: trick.id} ) }}">{{ trick.name }}</a></h2>
+        
+        <!-- Button trigger modal -->
+        <a data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
+            &#128465;
+        </a>
+        <!-- Modal -->
+        <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-body text-center">
+                        Are you sure you want to delete this trick ?
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                        <a class="btn btn-danger" href="{{ path('trick_delete', {id: trick.id} ) }}" role="button">Yes, delete this trick</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     {% endfor %}
 {% endblock %}
