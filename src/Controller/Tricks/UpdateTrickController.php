@@ -24,6 +24,7 @@ class UpdateTrickController extends AbstractController
         $updateTrick = $this->createForm(UpdateTrickFormType::class, $trick);
         $updateTrick->handleRequest($request);
         if ($updateTrick->isSubmitted() && $updateTrick->isValid()) {
+            $trick->setLastUpdatedDate(new \DateTime());
             $entityManager->persist($trick);
             $entityManager->flush();
             $this->addFlash('success', 'Trick updated');
