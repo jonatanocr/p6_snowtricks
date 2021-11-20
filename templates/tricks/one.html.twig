@@ -9,4 +9,16 @@
     <p style="margin-left: 4em;">{{ trick.author.username}} {{ trick.createdDate |format_datetime(locale='en') }}</p>
     <p style="margin-left: 4em;">{{ trick.category.name }}</p>
     <p class="text-center">{{ trick.description }}</p>
+
+    <p>Comment</p>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        {{ form_start(addCommentForm) }}
+        {{ form_end(addCommentForm) }}
+    {% endif %}
+
+    {% for comment in comments %}
+        <p>[{{ comment.createdDate|date("m/d/Y H:i:s", "Europe/Paris") }}] {{ comment.author.username }}</p>
+        <p>{{ comment.content }}</p>
+    {% endfor %}
+
 {% endblock %}

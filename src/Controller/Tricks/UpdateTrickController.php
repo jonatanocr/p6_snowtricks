@@ -5,7 +5,7 @@ namespace App\Controller\Tricks;
 
 
 use App\Entity\Trick;
-use App\Form\UpdateTrickFormType;
+use App\Form\Tricks\UpdateTrickFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
