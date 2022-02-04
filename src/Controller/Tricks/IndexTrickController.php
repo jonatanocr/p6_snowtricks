@@ -6,6 +6,7 @@ use App\Entity\Comment;
 use App\Entity\Trick;
 use App\Form\Comments\NewCommentFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -31,7 +32,7 @@ class IndexTrickController extends AbstractController
      * @param Security $security
      * @return Response
      */
-    public function displayOne(Request $request, int $id, Security $security): Response
+    public function displayOne(Request $request, $id, Security $security): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
         $trick = $this->getDoctrine()
@@ -42,10 +43,8 @@ class IndexTrickController extends AbstractController
                 'No trick found'
             );
         }
-
         $commentRepository = $this->getDoctrine()->getRepository(Comment::class);
         $comments = $commentRepository->findByTrick(['trick' => $id]);
-
         $comment = new Comment();
         $addComment = $this->createForm(NewCommentFormType::class, $comment);
         $addComment->handleRequest($request);
@@ -59,10 +58,16 @@ class IndexTrickController extends AbstractController
             $this->addFlash('success', 'Comment added');
             return $this->redirectToRoute('trick_display', ['id' => $id]);
         }
+        if($request->request->get('comment_min')){
+            $comment_min = $request->request->get('comment_min');
+            $commentRepository = $this->getDoctrine()->getRepository(Comment::class);
+            $comments = $commentRepository->findByTrick(['trick' => $id], $comment_min);
+            return new JsonResponse(json_encode($comments));
+        }
         return $this->render('tricks/one.html.twig', [
             'trick' => $trick,
             'addCommentForm' => $addComment->createView(),
-            'comments' => $comments,
+            'comments' => $comments
         ]);
     }
 }

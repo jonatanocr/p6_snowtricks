@@ -6,7 +6,6 @@ use App\Entity\Category;
 use App\Entity\Comment;
 use App\Entity\Trick;
 use App\Entity\User;
-use DateInterval;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;

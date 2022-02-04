@@ -22,16 +22,19 @@ class CommentRepository extends ServiceEntityRepository
     /**
     * @return Comment[] Returns an array of Comment objects
     */
-    public function findByTrick($value)
+    public function findByTrick($value, $min = 0)
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.trick = :val')
             ->setParameter('val', $value)
             ->orderBy('c.created_date', 'DESC')
+            ->setMaxResults(2)
+            ->setFirstResult($min)
             ->getQuery()
             ->getResult()
         ;
     }
+
 
     /*
     public function findOneBySomeField($value): ?Comment

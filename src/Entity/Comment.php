@@ -4,11 +4,12 @@ namespace App\Entity;
 
 use App\Repository\CommentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 
 /**
  * @ORM\Entity(repositoryClass=CommentRepository::class)
  */
-class Comment
+class Comment implements JsonSerializable
 {
     /**
      * @ORM\Id
@@ -90,5 +91,17 @@ class Comment
         $this->content = $content;
 
         return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        return
+            [
+                'id'   => $this->getId(),
+                'author' => $this->getAuthor(),
+                'created_date' => $this->getCreatedDate(),
+                'trick' => $this->getTrick(),
+                'content' => $this->getContent()
+            ];
     }
 }

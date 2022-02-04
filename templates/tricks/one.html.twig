@@ -16,9 +16,14 @@
         {{ form_end(addCommentForm) }}
     {% endif %}
 
+    <div id="comment_block">
     {% for comment in comments %}
-        <p>[{{ comment.createdDate|date("m/d/Y H:i:s", "Europe/Paris") }}] {{ comment.author.username }}</p>
+        <p>[{{ comment.createdDate|date("j/n/Y H:i:s", "Europe/Paris") }}] {{ comment.author.username }}</p>
         <p>{{ comment.content }}</p>
     {% endfor %}
-
+    </div>
+    {% if comments|length > 1 %}
+        <button type="button" class="btn btn-dark" id="loadMoreCommentsBtn">Load More</button>
+    {% endif %}
+    <input id="trickId" type="hidden" value="{{ trick.id }}">
 {% endblock %}
