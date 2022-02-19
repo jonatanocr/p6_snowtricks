@@ -5,6 +5,11 @@
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
 
     {% endif %}
+    {% for picture in trick.pictures %}
+    <div>
+        <img id="avatar" src="{{ asset('uploads/tricks/' ~ trick.id ~ '/' ~ picture.filename) }}" alt="" width="200">
+    </div>
+    {% endfor %}
     <h2 class="text-center">{{ trick.name }}</h2>
     <p style="margin-left: 4em;">{{ trick.author.username}} {{ trick.createdDate |format_datetime(locale='en') }}</p>
     <p style="margin-left: 4em;">{{ trick.category.name }}</p>

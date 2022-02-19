@@ -11,14 +11,20 @@
     <div id="tricks_block">
         <div class="row justify-content-center">
         {% for trick in tricks %}
+            {% if trick.pictures and trick.pictures|first is not null %}
+                {% if trick.firstPicture is not null %}
+                    {% set firstPicture = trick.pictures|first %}
+                {% endif %}
+            {% endif %}
             {%
                 include 'tricks/card.html.twig'
                 with {
-                'id': trick.id,
-                'delete_id': trick.id,
-                'name': trick.name,
-                'description': trick.description
-            }
+                    'id': trick.id,
+                    'delete_id': trick.id,
+                    'name': trick.name,
+                    'description': trick.description,
+                    'picture': firstPicture
+                }
             %}
         {% endfor %}
         </div>

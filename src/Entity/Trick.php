@@ -67,6 +67,8 @@ class Trick implements JsonSerializable
      */
     private $pictures;
 
+    private $firstPicture;
+
     /**
      * @Assert\All({
      * @Assert\Image(mimeTypes="image/jpeg")
@@ -252,5 +254,18 @@ class Trick implements JsonSerializable
         }
         $this->pictureFiles = $pictureFiles;
         return $this;
+    }
+
+    public function setFirstPicture()
+    {
+        if (!empty($this->pictures)) {
+            $this->firstPicture = $this->pictures[0];
+        }
+        return $this;
+    }
+
+    public function getFirstPicture()
+    {
+        return $this->firstPicture;
     }
 }

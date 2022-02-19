@@ -1,6 +1,7 @@
 <div class="col-sm-3" style="width: 20%;">
     <div class="card mb-4" style="width: 18rem; margin-left: 1em; margin-right: 1em;">
-        <img class="card-img-top" src="..." alt="Card image cap">
+        {# <img class="card-img-top" src="{{ asset('uploads/tricks/' ~ id ~ '/' ~ picture) }}" alt="Card image cap"> #}
+        <img class="card-img-top" src="{{ asset('uploads/tricks/' ~ id ~ '/' ~ firstPicture.filename) }}" alt="Card image cap">
         <div class="card-body">
             <h5 class="card-title"><a class="nav-link" href="{{ path('trick_display', {id: id} ) }}">{{ name }}</a>
                 <a class="nav-link" href="{{ path('trick_update', {id: id} ) }}">&#9998;</a>
