@@ -17,12 +17,42 @@ class IndexTrickController extends AbstractController
     /**
      * @Route("/", name="app_homepage")
      */
-    public function index()
+    public function index(Request $request)
     {
         $tricks = $this->getDoctrine()
             ->getRepository(Trick::class)
-            ->findAll();
+            //->findAll();
+            ->findFour();
+        if($request->request->get('trick_min')){
+            $trickMin = $request->request->get('trick_min');
+            $tricksMore = $this->getDoctrine()
+                ->getRepository(Trick::class)
+                ->findFour($trickMin);
+            return new JsonResponse(json_encode($tricksMore));
+            //return new JsonResponse(json_encode('aaaa'));
+        }
         return $this->render('tricks/index.html.twig', ['tricks' => $tricks]);
+    }
+
+    /**
+     * @Route("/loadmore", name="load_more_tricks")
+     */
+    public function loadMore(Request $request)
+    {
+        $trickMin = $request->request->get('trick_min');
+        $tricksMore = $this->getDoctrine()
+            ->getRepository(Trick::class)
+            ->findFour($trickMin);
+     //   return new JsonResponse(json_encode($tricksMore));
+        $data = array();
+        foreach ($tricksMore as $trick) {
+            $data[] = $this->renderView('tricks/card.html.twig', [
+                'id' => $trick->getId(),
+                'name' => $trick->getName(),
+                'description' => $trick->getDescription()
+            ]);
+        }
+        return new JsonResponse(json_encode($data));
     }
 
     /**

@@ -6,6 +6,7 @@ use App\Repository\TrickRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
@@ -15,7 +16,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *     message="This trick already exists"
  * )
  */
-class Trick
+class Trick implements JsonSerializable
 {
     /**
      * @ORM\Id
@@ -170,5 +171,20 @@ class Trick
         }
 
         return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        return
+            [
+                'id'   => $this->getId(),
+                'name' => $this->getName(),
+                'created_date' => $this->getCreatedDate(),
+                'last_updated_date' => $this->getCreatedDate(),
+                'author' => $this->getAuthor(),
+                'description' => $this->getDescription(),
+                'category' => $this->getCategory(),
+                'comments' => $this->getComments()
+            ];
     }
 }

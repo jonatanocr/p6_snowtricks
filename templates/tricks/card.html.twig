@@ -1,0 +1,30 @@
+<div class="col-sm-3" style="width: 20%;">
+    <div class="card mb-4" style="width: 18rem; margin-left: 1em; margin-right: 1em;">
+        <img class="card-img-top" src="..." alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title"><a class="nav-link" href="{{ path('trick_display', {id: id} ) }}">{{ name }}</a>
+                <a class="nav-link" href="{{ path('trick_update', {id: id} ) }}">&#9998;</a>
+                <!-- Button trigger modal -->
+                <a data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
+                    &#128465;
+                </a>
+            </h5>
+            <p class="card-text">{{ description }}</p>
+            <a href="{{ path('trick_display', {id: id} ) }}" class="btn btn-primary">Détail</a>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    Are you sure you want to delete this trick ?
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    <a class="btn btn-danger" href="{{ path('trick_delete', {id: id} ) }}" role="button">Yes, delete this trick</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
