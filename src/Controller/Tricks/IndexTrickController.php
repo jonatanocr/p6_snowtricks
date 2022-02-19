@@ -49,10 +49,18 @@ class IndexTrickController extends AbstractController
      //   return new JsonResponse(json_encode($tricksMore));
         $data = array();
         foreach ($tricksMore as $trick) {
+            /*
+            $firstPicture = '';
+            if (!empty($trick->getPictureFiles())) {
+                $firstPicture = $trick->getPictureFiles();
+            }
+            */
+            $trick->setFirstPicture();
             $data[] = $this->renderView('tricks/card.html.twig', [
                 'id' => $trick->getId(),
                 'name' => $trick->getName(),
-                'description' => $trick->getDescription()
+                'description' => $trick->getDescription(),
+                'firstPicture' => $trick->getFirstPicture()
             ]);
         }
         return new JsonResponse(json_encode($data));

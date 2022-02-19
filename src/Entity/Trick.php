@@ -200,7 +200,8 @@ class Trick implements JsonSerializable
                 'author' => $this->getAuthor(),
                 'description' => $this->getDescription(),
                 'category' => $this->getCategory(),
-                'comments' => $this->getComments()
+                'comments' => $this->getComments(),
+                'firstPicture' => $this->getPictureFiles()
             ];
     }
 

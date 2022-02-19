@@ -13,5 +13,5 @@ import './bootstrap';
 
 const $ = require('jquery');
 
-import loadMore from "./js/comments/loadMore";
+import loadMore from "./js/loadMore/loadMore";
 
