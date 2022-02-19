@@ -4,13 +4,17 @@ namespace App\Form\Tricks;
 
 use App\Entity\Category;
 use App\Entity\Trick;
+use App\Entity\TrickPicture;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\All;
+use Symfony\Component\Validator\Constraints\File;
 
 class NewTrickFormType extends AbstractType
 {
@@ -28,6 +32,27 @@ class NewTrickFormType extends AbstractType
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name'
+            ])
+            ->add('pictureFiles', FileType::class, [
+                'mapped' => false,
+                'required' => false,
+                'multiple' => true,
+                'attr'     => [
+                    'accept' => 'image/*',
+                    'multiple' => 'multiple'
+                ],
+                 'constraints' => [
+                     new All([
+                        new File([
+                            'maxSize' => '1024k',
+                            'mimeTypes' => [
+                                'image/jpeg',
+                                'image/png',
+                            ],
+                            'mimeTypesMessage' => 'Please upload a valid image (.jpeg or .png) document',
+                        ])
+                    ])
+                ],
             ])
             ->add('Save', SubmitType::class)
         ;
