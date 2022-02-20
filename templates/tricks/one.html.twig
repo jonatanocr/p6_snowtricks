@@ -8,9 +8,11 @@
 
     {% if trick.pictures|length > 0 %}
         {% for picture in trick.pictures %}
-            <div>
-                <img id="" src="{{ asset('uploads/tricks/' ~ trick.id ~ '/' ~ picture.filename) }}" alt="" width="200">
-            </div>
+            {% if loop.index == 1 %}
+                <div>
+                    <img id="" src="{{ asset('uploads/tricks/' ~ trick.id ~ '/' ~ picture.filename) }}" alt="" width="200">
+                </div>
+            {% endif %}
         {% endfor %}
     {% else %}
         <div>
@@ -18,6 +20,22 @@
         </div>
     {% endif %}
     <h2 class="text-center">{{ trick.name }}</h2>
+    {% if trick.pictures|length > 0 %}
+        <div class="container">
+            {% for picture in trick.pictures %}
+                    {% if (loop.index == 1 or loop.index is divisible by(5)) %}
+                        <div class="row">
+                    {% endif %}
+                            <div class="col-3">
+                                <img id="" src="{{ asset('uploads/tricks/' ~ trick.id ~ '/' ~ picture.filename) }}" alt="" width="300px;">
+                            </div>
+                    {% if loop.index is divisible by(4) %}
+                        </div>
+                    {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
     <p style="margin-left: 4em;">{{ trick.author.username}} {{ trick.createdDate |format_datetime(locale='en') }}</p>
     <p style="margin-left: 4em;">{{ trick.category.name }}</p>
     <p class="text-center">{{ trick.description }}</p>

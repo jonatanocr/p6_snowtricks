@@ -4,7 +4,6 @@ namespace App\Form\Tricks;
 
 use App\Entity\Category;
 use App\Entity\Trick;
-use App\Entity\TrickPicture;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;

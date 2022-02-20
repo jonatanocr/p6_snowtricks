@@ -39,7 +39,6 @@ class NewTrickController extends AbstractController
                     $originalFilename = pathinfo($pictureFile->getClientOriginalName(), PATHINFO_FILENAME);
                     $safeFilename = $slugger->slug($originalFilename);
                     $newFilename = $safeFilename.'-'.uniqid().'.'.$pictureFile->guessExtension();
-                    //$destination = $this->getParameter('tricks_directory').'/'.$trick->getId();
                     $destination = $this->getParameter('kernel.project_dir').'/public/uploads/tricks/'.$trick->getId();
                     try {
                         $pictureFile->move(
