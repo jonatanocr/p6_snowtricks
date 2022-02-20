@@ -34,7 +34,7 @@ class DeleteTrickPictureController extends AbstractController
                 $trickPicturePath = $this->getParameter('kernel.project_dir').'/public/uploads/tricks/'.$trickId.'/'.$filename;
                 $filesystem->remove($trickPicturePath);
             } catch (IOExceptionInterface $exception) {
-                echo "An error occurred while creating your directory at ".$exception->getPath();
+                $this->addFlash("danger", "An error occurred while deleting picture");
             }
             $this->addFlash('danger', 'Picture successfully deleted');
         }

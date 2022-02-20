@@ -46,7 +46,7 @@ class NewTrickController extends AbstractController
                             $newFilename
                         );
                     } catch (FileException $e) {
-                        echo "An error occurred while uploading your image";
+                        $this->addFlash("danger", "An error occurred while uploading your image");
                     }
                     $trickPicture->setTrick($trick);
                     $trickPicture->setPictureFile($pictureFile);

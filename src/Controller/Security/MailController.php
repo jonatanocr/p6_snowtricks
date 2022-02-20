@@ -16,7 +16,7 @@ class MailController
         $this->mailer = $mailer;
     }
 
-    public function sendEmail($to, $url, $username, $mailType)
+    public function sendEmail($recipient, $url, $username, $mailType)
     {
         switch ($mailType) {
             case "emailVerification":
@@ -30,7 +30,7 @@ class MailController
         }
         $email = (new TemplatedEmail())
             ->from('mailer.ocr@gmail.com')
-            ->to($to)
+            ->to($recipient)
             ->subject($subject)
             ->htmlTemplate($template)
             ->context([
