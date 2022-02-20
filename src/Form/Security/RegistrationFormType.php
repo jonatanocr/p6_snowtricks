@@ -31,9 +31,7 @@ class RegistrationFormType extends AbstractType
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password', 'placeholder' => 'Password'],
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a password',
-                    ]),
+                    new NotBlank(['message' => 'Please enter a password',]),
                     new Length([
                         'min' => 8,
                         'minMessage' => 'Your password should be at least {{ limit }} characters',
@@ -41,8 +39,7 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('Register', SubmitType::class)
-        ;
+            ->add('Register', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
