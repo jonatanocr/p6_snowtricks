@@ -6,6 +6,9 @@ namespace App\Controller\Tricks;
 
 use App\Entity\Trick;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Path;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -27,6 +30,13 @@ class DeleteTrickController extends AbstractController
         } else {
             $entityManager->remove($trick);
             $entityManager->flush();
+            $filesystem = new Filesystem();
+            try {
+                $trickPictureFolder = $this->getParameter('kernel.project_dir').'/public/uploads/tricks/'.$id;
+                $filesystem->remove($trickPictureFolder);
+            } catch (IOExceptionInterface $exception) {
+                echo "An error occurred while creating your directory at ".$exception->getPath();
+            }
             $this->addFlash('danger', 'Trick successfully deleted');
         }
         return $this->redirectToRoute('app_homepage');
