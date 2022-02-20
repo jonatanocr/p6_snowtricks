@@ -170,7 +170,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, JsonSer
     public function eraseCredentials()
     {
         // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
     }
 
     public function setUsername(string $username): self

@@ -5,10 +5,8 @@ namespace App\Controller\Security;
 
 use App\Entity\ChangePassword;
 use App\Entity\User;
-//use App\Form\AccountInformationType;
 use App\Form\Security\PasswordUpdateFormType;
 use App\Form\Security\SettingsFormType;
-//use App\Service\Notification\Notification;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;

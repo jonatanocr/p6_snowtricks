@@ -20,8 +20,6 @@
 .phpunit.result.cache
 ###< phpunit/phpunit ###
 
-### phpstorm temp files ###
-.idea
 
 .env
 ###> symfony/webpack-encore-bundle ###
