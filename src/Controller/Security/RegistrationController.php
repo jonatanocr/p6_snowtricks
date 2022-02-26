@@ -19,16 +19,16 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/register", name="app_register")
      */
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasherInterface, MailerInterface $mailer): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, MailerInterface $mailer): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $hash = $random_hex = bin2hex(random_bytes(18));
+            $hash = bin2hex(random_bytes(18));
             $user->setPassword(
-            $userPasswordHasherInterface->hashPassword(
+            $userPasswordHasher->hashPassword(
                     $user,
                     $form->get('plainPassword')->getData()
                 )
@@ -107,7 +107,7 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/delete_user", name="delete_user")
      */
-    public function deleteUser(Request $request, UserPasswordHasherInterface $userPasswordHasherInterface, MailerInterface $mailer): Response
+    public function deleteUser(): Response
     {
         $currentUserId = $this->getUser()->getId();
         $entityManager = $this->getDoctrine()->getManager();

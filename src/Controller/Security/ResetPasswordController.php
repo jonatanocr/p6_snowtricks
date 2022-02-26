@@ -45,7 +45,7 @@ class ResetPasswordController extends AbstractController
     /**
      * @Route("/confirm_reset_password/{email}/{hash}", name="confirm_reset_password")
      */
-    public function newPasswordForm($email, $hash, Request $request, MailerInterface $mailer, UserPasswordHasherInterface $userPasswordHasherInterface) {
+    public function newPasswordForm($email, $hash, Request $request, UserPasswordHasherInterface $userPasswordHasher) {
         $form = $this->createForm(PasswordResetFormType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -54,7 +54,7 @@ class ResetPasswordController extends AbstractController
             $user = $entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
             if ($user->getHash() == $hash) {
                 $user->setPassword(
-                    $userPasswordHasherInterface->hashPassword(
+                    $userPasswordHasher->hashPassword(
                         $user,
                         $form->get('newPassword')->getData()
                     )

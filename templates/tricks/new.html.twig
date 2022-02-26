@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    <h1>New trick</h1>
+
+    {{ form_start(newTrickForm) }}
+        {{ form_row(newTrickForm.name) }}
+        {{ form_row(newTrickForm.description) }}
+        {{ form_row(newTrickForm.category) }}
+        {{ form_row(newTrickForm.pictureFiles) }}
+    {{ form_end(newTrickForm) }}
+{% endblock %}

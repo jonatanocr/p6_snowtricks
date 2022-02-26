@@ -5,10 +5,8 @@ namespace App\Controller\Security;
 
 use App\Entity\ChangePassword;
 use App\Entity\User;
-//use App\Form\AccountInformationType;
 use App\Form\Security\PasswordUpdateFormType;
 use App\Form\Security\SettingsFormType;
-//use App\Service\Notification\Notification;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -31,7 +29,7 @@ class SettingsController extends AbstractController
     /**
      * @Route("/settings", name="settings")
      */
-    public function updateUser(Request $request, UserPasswordHasherInterface $userPasswordHasherInterface, SluggerInterface $slugger): Response
+    public function updateUser(Request $request, UserPasswordHasherInterface $userPasswordHasher, SluggerInterface $slugger): Response
     {
         $user = new User();
         $entityManager = $this->getDoctrine()->getManager();
@@ -45,7 +43,6 @@ class SettingsController extends AbstractController
         if ($formSettings->isSubmitted() && $formSettings->isValid()) {
             $avatarFile = $formSettings->get('avatar')->getData();
             if ($avatarFile) {
-                $originalFilename = pathinfo($avatarFile->getClientOriginalName(), PATHINFO_FILENAME);
                 $newFilename =  $user->getId().'.'.$avatarFile->guessExtension();
                 $filesystem = new Filesystem();
                 try {
@@ -56,7 +53,7 @@ class SettingsController extends AbstractController
                         }
                     }
                 } catch (IOExceptionInterface $exception) {
-                    echo "An error occurred while uploading your image";
+                    $this->addFlash("danger", "An error occurred while uploading your image");
                 }
                 try {
                     $avatarFile->move(
@@ -78,7 +75,7 @@ class SettingsController extends AbstractController
 
         if ($formPassword->isSubmitted() && $formPassword->isValid()) {
             $user->setPassword(
-                $userPasswordHasherInterface->hashPassword(
+                $userPasswordHasher->hashPassword(
                     $user,
                     $formPassword->get('newPassword')->getData()
                 )

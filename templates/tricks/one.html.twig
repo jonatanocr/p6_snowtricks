@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1 class="text-center">SnowTricks</h1>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+
+    {% endif %}
+
+    {% if trick.pictures|length > 0 %}
+        {% for picture in trick.pictures %}
+            {% if loop.index == 1 %}
+                <div>
+                    <img id="" src="{{ asset('uploads/tricks/' ~ trick.id ~ '/' ~ picture.filename) }}" alt="" width="200">
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        <div>
+            <img id="" src="{{ asset('media/icon.jpg') }}" alt="" width="200">
+        </div>
+    {% endif %}
+    <h2 class="text-center">{{ trick.name }}</h2>
+    {% if trick.pictures|length > 0 %}
+        <div class="container">
+            {% for picture in trick.pictures %}
+                    {% if (loop.index == 1 or loop.index is divisible by(5)) %}
+                        <div class="row">
+                    {% endif %}
+                            <div class="col-3">
+                                <img id="" src="{{ asset('uploads/tricks/' ~ trick.id ~ '/' ~ picture.filename) }}" alt="" width="300px;">
+                            </div>
+                    {% if loop.index is divisible by(4) %}
+                        </div>
+                    {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <p style="margin-left: 4em;">{{ trick.author.username}} {{ trick.createdDate |format_datetime(locale='en') }}</p>
+    <p style="margin-left: 4em;">{{ trick.category.name }}</p>
+    <p class="text-center">{{ trick.description }}</p>
+
+    <p>Comment</p>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        {{ form_start(addCommentForm) }}
+        {{ form_end(addCommentForm) }}
+    {% endif %}
+
+    <div id="comment_block">
+    {% for comment in comments %}
+        <p>[{{ comment.createdDate|date("j/n/Y H:i:s", "Europe/Paris") }}] {{ comment.author.username }}</p>
+        <p>{{ comment.content }}</p>
+    {% endfor %}
+    </div>
+    {% if comments|length > 1 %}
+        <button type="button" class="btn btn-dark" id="loadMoreCommentsBtn">Load More</button>
+    {% endif %}
+    <input id="trickId" type="hidden" value="{{ trick.id }}">
+    <input id="pageType" type="hidden" value="trick_1">
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    <h1>Update trick</h1>
+
+    {{ form_start(updateTrickForm) }}
+    {{ form_end(updateTrickForm) }}
+
+    {% if trick.pictures|length > 0 %}
+        <div class="container">
+            {% for picture in trick.pictures %}
+                {% if (loop.index == 1 or loop.index is divisible by(5)) %}
+                    <div class="row">
+                {% endif %}
+                <div class="col-3">
+                    <img id="" src="{{ asset('uploads/tricks/' ~ trick.id ~ '/' ~ picture.filename) }}" alt="" width="300px;">
+                    <form method="post" action="{{ path('trick_picture_delete', {id: picture.id} ) }}" style="display: inline-block">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ picture.id) }}">
+                        <input type="hidden" name="trick_id" value="{{ trick.id }}">
+                        <input type="hidden" name="filename" value="{{ picture.filename }}">
+                        <button class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+                {% if loop.index is divisible by(4) %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}
