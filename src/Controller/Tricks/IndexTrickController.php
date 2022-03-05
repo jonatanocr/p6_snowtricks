@@ -72,9 +72,7 @@ class IndexTrickController extends AbstractController
             ->getRepository(Trick::class)
             ->find($id);
         if (!$trick) {
-            throw $this->createNotFoundException(
-                'No trick found'
-            );
+            throw $this->createNotFoundException('No trick found');
         }
         $commentRepository = $this->getDoctrine()->getRepository(Comment::class);
         $comments = $commentRepository->findByTrick(['trick' => $id]);
