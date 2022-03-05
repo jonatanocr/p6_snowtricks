@@ -36,22 +36,8 @@ class UpdateTrickFormType extends AbstractType
                 'mapped' => false,
                 'required' => false,
                 'multiple' => true,
-                'attr'     => [
-                    'accept' => 'image/*',
-                    'multiple' => 'multiple'
-                ],
-                'constraints' => [
-                    new All([
-                        new File([
-                            'maxSize' => '1024k',
-                            'mimeTypes' => [
-                                'image/jpeg',
-                                'image/png',
-                            ],
-                            'mimeTypesMessage' => 'Please upload a valid image (.jpeg or .png) document',
-                        ])
-                    ])
-                ],
+                'attr'     => ['accept' => 'image/*', 'multiple' => 'multiple'],
+                'constraints' => [new All([new File(['maxSize' => '1024k', 'mimeTypes' => ['image/jpeg', 'image/png',], 'mimeTypesMessage' => 'Please upload a valid image (.jpeg or .png) document',])])],
             ])
             ->add('Save', SubmitType::class)
         ;

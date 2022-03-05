@@ -36,25 +36,12 @@ class NewTrickFormType extends AbstractType
                 'mapped' => false,
                 'required' => false,
                 'multiple' => true,
-                'attr'     => [
-                    'accept' => 'image/*',
-                    'multiple' => 'multiple'
-                ],
+                'attr'     => ['accept' => 'image/*', 'multiple' => 'multiple'],
                  'constraints' => [
-                     new All([
-                        new File([
-                            'maxSize' => '1024k',
-                            'mimeTypes' => [
-                                'image/jpeg',
-                                'image/png',
-                            ],
-                            'mimeTypesMessage' => 'Please upload a valid image (.jpeg or .png) document',
-                        ])
-                    ])
+                     new All([new File(['maxSize' => '1024k', 'mimeTypes' => ['image/jpeg', 'image/png',], 'mimeTypesMessage' => 'Please upload a valid image (.jpeg or .png) document',])])
                 ],
             ])
-            ->add('Save', SubmitType::class)
-        ;
+            ->add('Save', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
