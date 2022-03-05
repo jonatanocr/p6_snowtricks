@@ -33,27 +33,9 @@ class NewTrickController extends AbstractController
             $entityManager->persist($trick);
             $entityManager->flush();
             $pictureFiles = $form->get('pictureFiles')->getData();
-            foreach ($pictureFiles as $pictureFile) {
-                if ($pictureFile) {
-                    $trickPicture = New TrickPicture();
-                    $originalFilename = pathinfo($pictureFile->getClientOriginalName(), PATHINFO_FILENAME);
-                    $safeFilename = $slugger->slug($originalFilename);
-                    $newFilename = $safeFilename.'-'.uniqid().'.'.$pictureFile->guessExtension();
-                    $destination = $this->getParameter('kernel.project_dir').'/public/uploads/tricks/'.$trick->getId();
-                    try {
-                        $pictureFile->move(
-                            $destination,
-                            $newFilename
-                        );
-                    } catch (FileException $e) {
-                        $this->addFlash("danger", "An error occurred while uploading your image");
-                    }
-                    $trickPicture->setTrick($trick);
-                    $trickPicture->setPictureFile($pictureFile);
-                    $trickPicture->setFilename($newFilename);
-                    $entityManager->persist($trickPicture);
-                }
-            }
+            $destination = $this->getParameter('kernel.project_dir').'/public/uploads/tricks/'.$trick->getId();
+            $trickUpload = New UploadPicturesController();
+            $trickUpload->uploadPictures($trick, $pictureFiles, $slugger, $destination, $entityManager);
             $entityManager->flush();
             $this->addFlash('success', 'New trick is added');
             return $this->redirectToRoute('app_homepage');

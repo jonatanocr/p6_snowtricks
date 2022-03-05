@@ -21,8 +21,8 @@ class UpdateTrickController extends AbstractController
      */
     public function updateTrick(Request $request, int $id, SluggerInterface $slugger): Response
     {
-        $trick = new Trick();
         $entityManager = $this->getDoctrine()->getManager();
+        $trick = new Trick();
         $trick = $entityManager->getRepository(Trick::class)->find($id);
         $updateTrick = $this->createForm(UpdateTrickFormType::class, $trick);
         $updateTrick->handleRequest($request);
@@ -31,29 +31,10 @@ class UpdateTrickController extends AbstractController
             $entityManager->persist($trick);
             $entityManager->flush();
             $pictureFiles = $updateTrick->get('pictureFiles')->getData();
-            foreach ($pictureFiles as $pictureFile) {
-                if ($pictureFile) {
-                    $trickPicture = New TrickPicture();
-                    $originalFilename = pathinfo($pictureFile->getClientOriginalName(), PATHINFO_FILENAME);
-                    $safeFilename = $slugger->slug($originalFilename);
-                    $newFilename = $safeFilename.'-'.uniqid().'.'.$pictureFile->guessExtension();
-                    $destination = $this->getParameter('kernel.project_dir').'/public/uploads/tricks/'.$trick->getId();
-                    try {
-                        $pictureFile->move(
-                            $destination,
-                            $newFilename
-                        );
-                    } catch (FileException $e) {
-                        $this->addFlash("danger", "An error occurred while uploading your image");
-                    }
-                    $trickPicture->setTrick($trick);
-                    $trickPicture->setPictureFile($pictureFile);
-                    $trickPicture->setFilename($newFilename);
-                    $entityManager->persist($trickPicture);
-                }
-            }
+            $destination = $this->getParameter('kernel.project_dir').'/public/uploads/tricks/'.$trick->getId();
+            $trickUpload = New UploadPicturesController();
+            $trickUpload->uploadPictures($trick, $pictureFiles, $slugger, $destination, $entityManager);
             $entityManager->flush();
-
             $this->addFlash('success', 'Trick updated');
             return $this->redirectToRoute('app_homepage');
         }

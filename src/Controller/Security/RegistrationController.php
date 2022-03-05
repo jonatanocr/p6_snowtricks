@@ -59,18 +59,17 @@ class RegistrationController extends AbstractController
         $user = $entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
         if ($user === null) {
             $this->addFlash('danger', 'Account not found');
+            return $this->redirectToRoute('app_homepage');
+        } elseif ($user->getVerified() == 1) {
+            $this->addFlash('info', 'Your account is already verified');
+            return $this->redirectToRoute('app_homepage');
+        }
+        if ($user->getHash() === $hash) {
+            $user->setVerified(1);
+            $entityManager->flush();
+            $this->addFlash('success', 'Your account is now verified and you can login');
         } else {
-            if ($user->getVerified() == 1) {
-                $this->addFlash('info', 'Your account is already verified');
-            } else {
-                if ($user->getHash() === $hash) {
-                    $user->setVerified(1);
-                    $entityManager->flush();
-                    $this->addFlash('success', 'Your account is now verified and you can login');
-                } else {
-                    $this->addFlash('danger', 'An error occured');
-                }
-            }
+            $this->addFlash('danger', 'An error occured');
         }
         return $this->redirectToRoute('app_homepage');
     }
