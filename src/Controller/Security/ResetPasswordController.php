@@ -27,13 +27,12 @@ class ResetPasswordController extends AbstractController
             $user = $entityManager->getRepository(User::class)->findOneBy(['email' => $form->get('email')->getData()]);
             if ($user === null) {
                 $this->addFlash('danger', 'Account not found');
-            } else {
-                $url = $this->getUrl($user);
-                $mailController = new MailController($mailer);
-                $mailController->sendEmail($user->getEmail(), $url, $user->getUsername(), 'resetPassword');
-                $this->addFlash('success', 'You will receive an email with instructions about how to reset your password in a few minutes.');
+                return $this->redirectToRoute('app_homepage');
             }
-
+            $url = $this->getUrl($user);
+            $mailController = new MailController($mailer);
+            $mailController->sendEmail($user->getEmail(), $url, $user->getUsername(), 'resetPassword');
+            $this->addFlash('success', 'You will receive an email with instructions about how to reset your password in a few minutes.');
             return $this->redirectToRoute('app_homepage');
         }
 

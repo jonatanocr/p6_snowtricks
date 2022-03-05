@@ -114,12 +114,12 @@ class RegistrationController extends AbstractController
         $user = $entityManager->getRepository(User::class)->find($currentUserId);
         if ($user === null) {
             $this->addFlash('danger', 'An error occured ( ⚆ _ ⚆ )');
-        } else {
-            $session = new Session();
-            $session->invalidate();
-            $entityManager->remove($user);
-            $entityManager->flush();
+            return $this->redirectToRoute('app_homepage');
         }
+        $session = new Session();
+        $session->invalidate();
+        $entityManager->remove($user);
+        $entityManager->flush();
         return $this->redirectToRoute('app_homepage');
     }
 

@@ -61,7 +61,7 @@ class SettingsController extends AbstractController
                         $newFilename
                     );
                 } catch (FileException $e) {
-
+                    $this->addFlash("danger", "An error occurred while uploading your image");
                 }
                 $user->setAvatarFilename($newFilename);
             }
