@@ -4,6 +4,7 @@ namespace App\Controller\Tricks;
 
 use App\Entity\Comment;
 use App\Entity\Trick;
+use App\Entity\User;
 use App\Form\Comments\NewCommentFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -21,7 +22,6 @@ class IndexTrickController extends AbstractController
     {
         $tricks = $this->getDoctrine()
             ->getRepository(Trick::class)
-            //->findAll();
             ->findFour();
         foreach ($tricks as $trick) {
             $trick->setFirstPicture();

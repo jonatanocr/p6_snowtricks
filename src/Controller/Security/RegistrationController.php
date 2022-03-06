@@ -2,10 +2,13 @@
 
 namespace App\Controller\Security;
 
+use App\Entity\Trick;
 use App\Entity\User;
 use App\Form\Security\RegistrationFormType;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -114,6 +117,25 @@ class RegistrationController extends AbstractController
         if ($user === null) {
             $this->addFlash('danger', 'An error occured ( ⚆ _ ⚆ )');
             return $this->redirectToRoute('app_homepage');
+        }
+        $avatarFileName = $user->getAvatarFilename();
+        $tricksList = $user->getTricks();
+        $filesystem = new Filesystem();
+        try {
+            if (!empty($avatarFileName)) {
+                $avatarFilePath = $this->getParameter('kernel.project_dir').'/public/uploads/users/'.$avatarFileName;
+                $filesystem->remove($avatarFilePath);
+            }
+        } catch (IOExceptionInterface $exception) {
+            $this->addFlash("danger", "An error occurred while deleting the avatar image");
+        }
+        foreach ($tricksList as $trick) {
+            try {
+                $trickFolder = $this->getParameter('kernel.project_dir').'/public/uploads/tricks/'.$trick->getId();
+                $filesystem->remove($trickFolder);
+            } catch (IOExceptionInterface $exception) {
+                $this->addFlash("danger", "An error occurred while deleting the trick images");
+            }
         }
         $session = new Session();
         $session->invalidate();
