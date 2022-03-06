@@ -2,12 +2,16 @@
 
 namespace App\DataFixtures;
 
+use App\Controller\Tricks\UploadPicturesController;
 use App\Entity\Category;
 use App\Entity\Comment;
 use App\Entity\Trick;
+use App\Entity\TrickPicture;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
@@ -18,15 +22,18 @@ class AppFixtures extends Fixture
      */
     private $passwordEncoder;
 
+    private $webDirectory;
+
     public const REFERENCE = 'user';
 
     /**
      * AppFixture constructor.
      * @param UserPasswordHasherInterface $passwordEncoder
      */
-    public function __construct(UserPasswordHasherInterface $passwordEncoder)
+    public function __construct(UserPasswordHasherInterface $passwordEncoder, $webDirectory)
     {
         $this->passwordEncoder = $passwordEncoder;
+        $this->webDirectory = $webDirectory;
     }
 
     public function load(ObjectManager $manager): void
@@ -66,6 +73,7 @@ class AppFixtures extends Fixture
         }
 
         // create 10 tricks
+        $photoNo = 1;
         for ($i = 0; $i < 10; $i++) {
             ${"trick$i"} = new Trick();
             switch ($i) {
@@ -141,6 +149,14 @@ class AppFixtures extends Fixture
                     break;
             }
             $manager->persist(${"trick$i"});
+            $manager->flush();
+
+            $filename = "trick_img_" . $photoNo . ".jpeg";
+            $this->loadTrickImages(${"trick$i"}, $filename, $manager);
+            $photoNo++;
+            $filename = "trick_img_" . $photoNo . ".jpeg";
+            $this->loadTrickImages(${"trick$i"}, $filename, $manager);
+            $photoNo++;
         }
 
         // create 7 comments
@@ -196,7 +212,22 @@ class AppFixtures extends Fixture
             }
             $manager->persist($comment);
         }
-
         $manager->flush();
+    }
+
+    private function loadTrickImages(Trick $trick, $filename, $manager)
+    {
+        // add pictures to tricks
+        $filesystem = new Filesystem();
+        $filesystem->mkdir($this->webDirectory.'public/uploads/tricks/'.$trick->getId());
+        $source = $this->webDirectory.'/public/media/tricks_pictures_fixtures/'.$filename;
+        $destination = $this->webDirectory.'public/uploads/tricks/'.$trick->getId().'/'.$filename;
+        $filesystem->copy($source, $destination);
+        $pictureFile = New UploadedFile($this->webDirectory.'/public/media/tricks_pictures_fixtures/'.$filename, $filename);
+        $trickPicture = New TrickPicture();
+        $trickPicture->setTrick($trick);
+        $trickPicture->setPictureFile($pictureFile);
+        $trickPicture->setFilename($filename);
+        $manager->persist($trickPicture);
     }
 }

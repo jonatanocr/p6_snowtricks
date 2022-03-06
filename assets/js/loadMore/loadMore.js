@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     } else if (pageType === "trick_index") {
         var buttonTricks = document.getElementById("loadMoreTricksBtn");
-        var min = 4;
+        var min = 8;
         buttonTricks.addEventListener("click", function (event) {
             $.ajax({
                 url: "/loadmore",
@@ -66,10 +66,10 @@ document.addEventListener("DOMContentLoaded", function () {
                             document.getElementById("tricks_block").appendChild(moreTrickRow);
                         })
                     }
-                    if (moreTricksData.length < 4) {
+                    if (moreTricksData.length < 8) {
                         document.getElementById("loadMoreTricksBtn").style.display = "none";
                     }
-                    min+= 4;
+                    min+= 8;
                 }
             });
         });

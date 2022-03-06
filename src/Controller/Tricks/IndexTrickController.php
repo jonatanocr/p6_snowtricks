@@ -22,7 +22,7 @@ class IndexTrickController extends AbstractController
     {
         $tricks = $this->getDoctrine()
             ->getRepository(Trick::class)
-            ->findFour();
+            ->findHeight();
         foreach ($tricks as $trick) {
             $trick->setFirstPicture();
         }
@@ -37,16 +37,9 @@ class IndexTrickController extends AbstractController
         $trickMin = $request->request->get('trick_min');
         $tricksMore = $this->getDoctrine()
             ->getRepository(Trick::class)
-            ->findFour($trickMin);
-     //   return new JsonResponse(json_encode($tricksMore));
+            ->findHeight($trickMin);
         $data = array();
         foreach ($tricksMore as $trick) {
-            /*
-            $firstPicture = '';
-            if (!empty($trick->getPictureFiles())) {
-                $firstPicture = $trick->getPictureFiles();
-            }
-            */
             $trick->setFirstPicture();
             $data[] = $this->renderView('tricks/card.html.twig', [
                 'id' => $trick->getId(),

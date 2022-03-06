@@ -23,12 +23,11 @@ class TrickRepository extends ServiceEntityRepository
     /**
      * @return Trick[] Returns an array of Trick objects
      */
-    public function findFour($first = 0)
+    public function findHeight($first = 0)
     {
-        //$first = 4;
         return $this->createQueryBuilder('t')
             ->orderBy('t.id', 'ASC')
-            ->setMaxResults(4)
+            ->setMaxResults(8)
             ->setFirstResult($first)
             ->getQuery()
             ->getResult()
