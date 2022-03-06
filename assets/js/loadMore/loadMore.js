@@ -56,14 +56,23 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 async: true,
                 success: function (data) {
-                    var moreTrickRow = document.createElement("div");
-                    moreTrickRow.classList.add("row");
-                    moreTrickRow.classList.add("justify-content-center");
+                    var moreTrickRow1 = document.createElement("div");
+                    moreTrickRow1.classList.add("row");
+                    moreTrickRow1.classList.add("justify-content-center");
+                    var moreTrickRow2 = document.createElement("div");
+                    moreTrickRow2.classList.add("row");
+                    moreTrickRow2.classList.add("justify-content-center");
                     var moreTricksData = JSON.parse(data);
                     if (moreTricksData.length > 0) {
-                        moreTricksData.forEach((element) => {
-                            moreTrickRow.innerHTML += element;
-                            document.getElementById("tricks_block").appendChild(moreTrickRow);
+                        moreTricksData.forEach((element, index) => {
+                            if (index < 4) {
+                                moreTrickRow1.innerHTML += element;
+                                document.getElementById("tricks_block").appendChild(moreTrickRow1);
+                            } else {
+                                moreTrickRow2.innerHTML += element;
+                                document.getElementById("tricks_block").appendChild(moreTrickRow2);
+                            }
+
                         })
                     }
                     if (moreTricksData.length < 8) {

@@ -7,29 +7,33 @@
             <a class="nav-link" href="{{ path('new_trick') }}" style="text-align: right; margin-right: 2em;">&#43;</a>
         </p>
     {% endif %}
-    {% set i = 0 %}
     <div id="tricks_block">
-        <div class="row justify-content-center">
         {% for trick in tricks %}
-            {% set firstPicture = '' %}
-            {% if trick.pictures and trick.pictures|first is not null %}
-                {% if trick.firstPicture is not null %}
-                    {% set firstPicture = trick.pictures|first %}
-                {% endif %}
+            {% dump(loop.index) %}
+            {% if loop.index == 1 or loop.index%5 == 0 %}
+                <div class="row justify-content-center">
             {% endif %}
-            {% set delete_id = trick.id %}
-            {%
-                include 'tricks/card.html.twig'
-                with {
-                    'id': trick.id,
-                    'delete_id': delete_id,
-                    'name': trick.name,
-                    'description': trick.description,
-                    'picture': firstPicture
-                }
-            %}
+                {% set firstPicture = '' %}
+                {% if trick.pictures and trick.pictures|first is not null %}
+                    {% if trick.firstPicture is not null %}
+                        {% set firstPicture = trick.pictures|first %}
+                    {% endif %}
+                {% endif %}
+                {% set delete_id = trick.id %}
+                {%
+                    include 'tricks/card.html.twig'
+                    with {
+                        'id': trick.id,
+                        'delete_id': delete_id,
+                        'name': trick.name,
+                        'description': trick.description,
+                        'picture': firstPicture
+                    }
+                %}
+            {% if loop.index%4 == 0 %}
+                </div>
+            {% endif %}
         {% endfor %}
-        </div>
     </div>
     <button type="button" class="btn btn-info" id="loadMoreTricksBtn">Load More</button>
     <input id="pageType" type="hidden" value="trick_index">
