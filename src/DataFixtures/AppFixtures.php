@@ -151,12 +151,11 @@ class AppFixtures extends Fixture
             $manager->persist(${"trick$i"});
             $manager->flush();
 
-            $filename = "trick_img_" . $photoNo . ".jpeg";
-            $this->loadTrickImages(${"trick$i"}, $filename, $manager);
-            $photoNo++;
-            $filename = "trick_img_" . $photoNo . ".jpeg";
-            $this->loadTrickImages(${"trick$i"}, $filename, $manager);
-            $photoNo++;
+            for($j = 0; $j < 2; $j++) {
+                $filename = "trick_img_" . $photoNo . ".jpeg";
+                $this->loadTrickImages(${"trick$i"}, $filename, $manager);
+                $photoNo++;
+            }
         }
 
         // create 7 comments
