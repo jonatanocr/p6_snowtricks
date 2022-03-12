@@ -6,6 +6,7 @@ use App\Entity\Category;
 use App\Entity\Trick;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -41,6 +42,35 @@ class NewTrickFormType extends AbstractType
                      new All([new File(['maxSize' => '1024k', 'mimeTypes' => ['image/jpeg', 'image/png',], 'mimeTypesMessage' => 'Please upload a valid image (.jpeg or .png) document',])])
                 ],
             ])
+            ->add('trickVideos', CollectionType::class, [
+                'entry_type' => TrickVideoType::class,
+                'allow_add' => true,
+                'by_reference' => false,
+                'prototype'     => true,
+                /*
+                'mapped' => false,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'prototype'     => true,
+*/
+            ])
+            /*
+            ->add('trickVideos', CollectionType::class, [
+                // each entry in the array will be an "email" field
+                'entry_type' => TextType::class,
+                'mapped' => false,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'prototype'     => true,
+            ])
+*/
+            /*
+            ->add('trickVideos', TextType::class,[
+                'label' => false,
+                'mapped' => false,
+                'required' => false,
+            ])
+            */
             ->add('Save', SubmitType::class);
     }
 

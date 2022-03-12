@@ -9,7 +9,6 @@
     {% endif %}
     <div id="tricks_block">
         {% for trick in tricks %}
-            {% dump(loop.index) %}
             {% if loop.index == 1 or loop.index%5 == 0 %}
                 <div class="row justify-content-center">
             {% endif %}

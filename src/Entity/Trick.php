@@ -78,10 +78,16 @@ class Trick implements JsonSerializable
      */
     private $pictureFiles;
 
+    /**
+     * @ORM\OneToMany(targetEntity=TrickVideo::class, mappedBy="trick", orphanRemoval=true, cascade={"persist"})
+     */
+    private $trickVideos;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->pictures = new ArrayCollection();
+        $this->trickVideos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -270,5 +276,35 @@ class Trick implements JsonSerializable
     public function getFirstPicture()
     {
         return $this->firstPicture;
+    }
+
+    /**
+     * @return Collection|TrickVideo[]
+     */
+    public function getTrickVideos(): Collection
+    {
+        return $this->trickVideos;
+    }
+
+    public function addTrickVideo(TrickVideo $trickVideo): self
+    {
+        if (!$this->trickVideos->contains($trickVideo)) {
+            $this->trickVideos[] = $trickVideo;
+            $trickVideo->setTrick($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTrickVideo(TrickVideo $trickVideo): self
+    {
+        if ($this->trickVideos->removeElement($trickVideo)) {
+            // set the owning side to null (unless already changed)
+            if ($trickVideo->getTrick() === $this) {
+                $trickVideo->setTrick(null);
+            }
+        }
+
+        return $this;
     }
 }

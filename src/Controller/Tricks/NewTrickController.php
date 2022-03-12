@@ -4,6 +4,7 @@ namespace App\Controller\Tricks;
 
 use App\Entity\Trick;
 use App\Entity\TrickPicture;
+use App\Entity\TrickVideo;
 use App\Entity\User;
 use App\Form\Tricks\NewTrickFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,10 +26,14 @@ class NewTrickController extends AbstractController
         $user = $security->getUser();
         $form = $this->createForm(NewTrickFormType::class, $trick);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $trick->setAuthor($user);
             $trick->setCreatedDate(new \DateTime());
+            $videos = $form->get('trickVideos')->getData();
+            foreach ($videos as $video) {
+                $trick->addTrickVideo($video);
+                $video->setTrick($trick);
+            }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($trick);
             $entityManager->flush();

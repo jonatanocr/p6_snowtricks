@@ -10,5 +10,27 @@
         {{ form_row(newTrickForm.description) }}
         {{ form_row(newTrickForm.category) }}
         {{ form_row(newTrickForm.pictureFiles) }}
+{#
+    <input type="text" id="trickVideos_0" name="newTrickForm[trickVideos][0]"/>
+    <input type="text" id="trickVideos_1" name="newTrickForm[trickVideos][1]"/>
+
+    {{ form_row(newTrickForm.trickVideos) }}
+    {{ form_row(newTrickForm.trickVideos.vars.prototype) }}
+#}
+
+
+        {% for video in newTrickForm.trickVideos %}
+            <p>{{ form_row(video.url) }}</p>
+        {% endfor %}
+
+
+
+    <ul class="trickVideos"
+        data-index="{{ newTrickForm.trickVideos|length > 0 ? newTrickForm.trickVideos|last.vars.name + 1 : 0 }}"
+        data-prototype="{{ form_widget(newTrickForm.trickVideos.vars.prototype)|e('html_attr') }}"
+    ></ul>
+
+    <button type="button" id="add_input" class="add_item_link" data-collection-holder-class="trickVideos">Add a video url</button>
+
     {{ form_end(newTrickForm) }}
 {% endblock %}
