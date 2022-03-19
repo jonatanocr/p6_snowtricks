@@ -35,7 +35,9 @@ class TrickVideo
 
     public function getUrl(): ?string
     {
-        return $this->url;
+        //return $this->url;
+        $url = $this->convertUrl($this->url);
+        return $url;
     }
 
     public function setUrl(string $url): self
@@ -56,4 +58,8 @@ class TrickVideo
 
         return $this;
     }
+
+    private function convertUrl($url) {
+        return preg_replace("/\s*[a-zA-Z\/\/:\.]*youtube.com\/watch\?v=([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)/i","<iframe width=\"420\" height=\"315\" src=\"//www.youtube.com/embed/$1\" frameborder=\"0\" allowfullscreen></iframe>",$url);
+}
 }
