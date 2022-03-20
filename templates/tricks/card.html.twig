@@ -1,31 +1,37 @@
-<div class="col-sm-3" style="width: 20%;">
-    <div class="card mb-4" style="width: 18rem; margin-left: 1em; margin-right: 1em;">
-        {% if firstPicture %}
-            <img class="card-img-top" src="{{ asset('uploads/tricks/' ~ id ~ '/' ~ firstPicture.filename) }}" alt="Card image cap">
-        {% else %}
-            <img class="card-img-top" src="{{ asset('media/icon.jpg') }}" alt="Card image cap">
-        {% endif %}
+<div class="col-lg-3 col-md-6 col-12 card_col" style="">
+    <div class="card mb-4 card_div">
+            {% if firstPicture %}
+
+                <div class="card_img_top_div" style="background-image: url('{{ asset('uploads/tricks/' ~ id ~ '/' ~ firstPicture.filename) }}')"></div>
+
+                {#
+                <img class="card-img-top" src="{{ asset('uploads/tricks/' ~ id ~ '/' ~ firstPicture.filename) }}" alt="Card image cap">
+                #}
+            {% else %}
+                <img class="card-img-top" src="{{ asset('media/icon.jpg') }}" alt="Card image cap">
+            {% endif %}
 
         <div class="card-body">
-            <h5 class="card-title"><a class="nav-link" href="{{ path('trick_display', {id: id} ) }}">{{ name }}</a>
-                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    <a class="nav-link" href="{{ path('trick_update', {id: id} ) }}">&#9998;</a>
-                {% endif %}
+            <h5 class="card-title"><a class="nav-link cool_font card_title_link" href="{{ path('trick_display', {id: id} ) }}">{{ name }}</a>
                 <!-- Button trigger modal -->
                 <a data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
 
                 </a>
             </h5>
             <p class="card-text">{{ description }}</p>
+            {#
             <a href="{{ path('trick_display', {id: id} ) }}" class="btn btn-primary">Detail</a>
+            #}
         </div>
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            <form method="post" action="{{ path('trick_delete', {id: id} ) }}" style="display: inline-block" onsubmit="return confirm('Are you sure you want to delete this trick ?')">
-                <input type="hidden" name="_method" value="DELETE">
-                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ id) }}">
-                <button class="btn btn-danger">Delete</button>
-                 {# &#128465; #}
-            </form>
+            <div class="edit_delete_block">
+                <a class="nav-link edit_trick_btn" href="{{ path('trick_update', {id: id} ) }}">&#9998;</a>
+                <form method="post" action="{{ path('trick_delete', {id: id} ) }}" style="display: inline-block" onsubmit="return confirm('Are you sure you want to delete this trick ?')">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ id) }}">
+                    <input type="image" src="{{ asset('media/bin_s.png') }}" />
+                </form>
+            </div>
         {% endif %}
     </div>
 </div>

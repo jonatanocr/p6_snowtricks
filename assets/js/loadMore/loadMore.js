@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
             return false;
         });
-    } else if (pageType === "trick_index") {
+    } else if (pageType === "trick_index" || pageType === "trick_update") {
         var buttonTricks = document.getElementById("loadMoreTricksBtn");
         var min = 8;
         buttonTricks.addEventListener("click", function (event) {

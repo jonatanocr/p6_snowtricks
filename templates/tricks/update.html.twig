@@ -4,9 +4,32 @@
 
 {% block body %}
     <h1>Update trick</h1>
-
+{#
     {{ form_start(updateTrickForm) }}
     {{ form_end(updateTrickForm) }}
+#}
+    {{ form_start(updateTrickForm) }}
+    {{ form_row(updateTrickForm.name) }}
+    {{ form_row(updateTrickForm.description) }}
+    {{ form_row(updateTrickForm.category) }}
+    {{ form_row(updateTrickForm.pictureFiles) }}
+
+    {% for video in updateTrickForm.trickVideos %}
+        <p>{{ form_row(video.url) }}</p>
+    {% endfor %}
+
+
+
+    <ul class="trickVideos"
+        data-index="{{ updateTrickForm.trickVideos|length > 0 ? updateTrickForm.trickVideos|last.vars.name + 1 : 0 }}"
+        data-prototype="{{ form_widget(updateTrickForm.trickVideos.vars.prototype)|e('html_attr') }}"
+    ></ul>
+
+    <button type="button" id="add_input" class="add_item_link" data-collection-holder-class="trickVideos">Add a video url</button>
+
+
+    {{ form_end(updateTrickForm) }}
+    <input id="pageType" type="hidden" value="trick_update">
 
     {% if trick.pictures|length > 0 %}
         <div class="container">
@@ -23,6 +46,31 @@
                         <input type="hidden" name="filename" value="{{ picture.filename }}">
                         <button class="btn btn-danger">Delete</button>
                     </form>
+                </div>
+                {% if loop.index is divisible by(4) %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% if trick.trickVideos|length > 0 %}
+        <div class="container">
+            {% for video in trick.trickVideos %}
+                {% if (loop.index == 1 or loop.index is divisible by(5)) %}
+                    <div class="row">
+                {% endif %}
+                <div class="col-3">
+                    <div>
+                        {{ video.url | raw }}
+                    </div>
+                    <div>
+                        <form method="post" action="{{ path('trick_video_delete', {id: video.id} ) }}" style="display: inline-block">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ video.id) }}">
+                            <input type="hidden" name="trick_id" value="{{ trick.id }}">
+                            <button class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
                 </div>
                 {% if loop.index is divisible by(4) %}
                     </div>

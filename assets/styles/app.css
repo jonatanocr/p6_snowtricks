@@ -1,3 +1,80 @@
 body {
   background-color: lightgray;
+  font-family: 'Roboto', sans-serif;
+}
+
+.cool_font {
+  font-family: 'Shadows Into Light', cursive;
+}
+
+.homepage_image_div {
+  height: 100vh !important;
+  max-width: 100vw !important;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.homepage_image_img {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+#tricks_block {
+  margin-top: 3em;
+}
+/* tricks card stuff */
+.card_div {
+  margin-left: 1em;
+  margin-right: 1em;
+  width: 18em;
+  height: 25em;
+}
+
+.card_img_top_div {
+  height: 45% !important;
+  max-height: 45% !important;
+  background-size: 100%;
+}
+
+.card-body {
+  height: 45%;
+}
+
+.edit_delete_block {
+  height: 10%;
+}
+
+.card_col {
+  display: flex;
+  justify-content: center;
+}
+
+.card_title_link {
+  font-size: 1.3em;
+  font-weight: bold;
+  text-align: center;
+}
+
+.edit_delete_block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 1.5em;
+}
+
+.edit_trick_btn {
+  font-size: 2em;
+}
+
+.scroll_down_div {
+  font-size: 3em;
+  text-align: right;
+  padding-right: 2em;
+  position: relative;
+  top: -180px;
+}
+
+.scroll_down_arrow {
+  text-decoration: none;
+  color: black;
 }

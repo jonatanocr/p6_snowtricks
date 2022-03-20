@@ -10,14 +10,6 @@
         {{ form_row(newTrickForm.description) }}
         {{ form_row(newTrickForm.category) }}
         {{ form_row(newTrickForm.pictureFiles) }}
-{#
-    <input type="text" id="trickVideos_0" name="newTrickForm[trickVideos][0]"/>
-    <input type="text" id="trickVideos_1" name="newTrickForm[trickVideos][1]"/>
-
-    {{ form_row(newTrickForm.trickVideos) }}
-    {{ form_row(newTrickForm.trickVideos.vars.prototype) }}
-#}
-
 
         {% for video in newTrickForm.trickVideos %}
             <p>{{ form_row(video.url) }}</p>

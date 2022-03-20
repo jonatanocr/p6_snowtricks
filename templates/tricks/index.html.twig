@@ -1,10 +1,15 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1 class="text-center">SnowTricks</h1>
+    <div class="homepage_image_div" style="background-image: url('{{ asset('media/SnowboardTrick_mainImage.jpg') }}')">
+    </div>
+    <div class="scroll_down_div">
+        <a class="scroll_down_arrow" href="#tricks_block">&#10534;</a>
+    </div>
+
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-        <p class="text-right" style="font-size: 2.5em;">
-            <a class="nav-link" href="{{ path('new_trick') }}" style="text-align: right; margin-right: 2em;">&#43;</a>
+        <p class="text-right" style="font-size: 2em;">
+            <a class="nav-link" href="{{ path('new_trick') }}" style="text-align: right; padding-right: 4em;">Add New&#43;</a>
         </p>
     {% endif %}
     <div id="tricks_block">
@@ -34,7 +39,9 @@
             {% endif %}
         {% endfor %}
     </div>
-    <button type="button" class="btn btn-info" id="loadMoreTricksBtn">Load More</button>
+    <div class="text-center mb-4">
+        <button type="button" class="btn btn-dark" id="loadMoreTricksBtn">Load More</button>
+    </div>
     <input id="pageType" type="hidden" value="trick_index">
 
 {% endblock %}
