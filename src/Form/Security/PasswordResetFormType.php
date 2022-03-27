@@ -26,10 +26,10 @@ class PasswordResetFormType extends AbstractType
                 'options' => ['attr' => ['class' => 'password-field']],
                 'required' => true,
                 'first_options'  => [
-                    'attr' =>['placeholder' => 'New Password'], 'label' => false,
+                    'attr' =>['placeholder' => 'New Password', 'class' => 'adminInput '], 'label' => false
                 ],
                 'second_options' => [
-                    'attr' => ['placeholder' => 'Repeat Password'], 'label' => false,
+                    'attr' => ['placeholder' => 'Repeat Password', 'class' => 'adminInput mt-2'], 'label' => false,
                 ],
                 'constraints' => [
                     new NotBlank(['message' => 'Please enter a password',]),
@@ -40,7 +40,9 @@ class PasswordResetFormType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('Save', SubmitType::class);
+            ->add('Save', SubmitType::class, [
+                'attr' => ['class' => 'btn btn-dark mt-2']
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

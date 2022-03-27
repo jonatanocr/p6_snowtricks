@@ -4,6 +4,7 @@ namespace App\Form\Security;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -13,10 +14,12 @@ class PasswordResetUserEmailFormType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, [
-                'attr' => ['placeholder' => 'Enter your email'],
+                'attr' => ['placeholder' => 'Enter your email', 'class' => 'adminInput'],
                 'label' => false,
             ])
-        ;
+            ->add('validForm', SubmitType::class, [
+                'attr' => ['class' => 'btn btn-dark']
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

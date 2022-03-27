@@ -6,3 +6,11 @@
   text-align: center;
   font-weight: bold;
 }
+
+.adminInput {
+  border-radius: 5px;
+}
+
+.linkTxtDecoNone {
+  text-decoration: none;
+}

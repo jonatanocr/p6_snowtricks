@@ -7,6 +7,7 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -32,14 +33,17 @@ class SettingsFormType extends AbstractType
                 ],
             ])
             ->add('username', TextType::class, [
-                'attr' => ['placeholder' => 'Username'],
+                'attr' => ['placeholder' => 'Username', 'class' => 'adminInput'],
                 'label' => false,
             ])
             ->add('email', EmailType::class, [
-                'attr' => ['placeholder' => 'Email'],
+                'attr' => ['placeholder' => 'Email', 'class' => 'adminInput'],
                 'label' => false,
             ])
-        ;
+            ->add('Save', SubmitType::class, [
+                'attr' => ['class' => 'btn btn-dark']
+            ]);
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void
