@@ -3,9 +3,6 @@
 namespace App\Controller\Tricks;
 
 use App\Entity\Trick;
-use App\Entity\TrickPicture;
-use App\Entity\TrickVideo;
-use App\Entity\User;
 use App\Form\Tricks\NewTrickFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -37,9 +34,25 @@ class NewTrickController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($trick);
             $entityManager->flush();
-            $pictureFiles = $form->get('pictureFiles')->getData();
+
             $destination = $this->getParameter('kernel.project_dir').'/public/uploads/tricks/'.$trick->getId();
             $trickUpload = New UploadPicturesController();
+            $mainPictureFile = $form->get('mainPicture')->getData();
+            if ($mainPictureFile) {
+                $originalFilename = pathinfo($mainPictureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$mainPictureFile->guessExtension();
+                try {
+                    $mainPictureFile->move(
+                        $destination,
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    $this->addFlash("danger", "An error occurred while uploading your image");
+                }
+                $trick->setMainPicture($newFilename);
+            }
+            $pictureFiles = $form->get('pictureFiles')->getData();
             $trickUpload->uploadPictures($trick, $pictureFiles, $slugger, $destination, $entityManager);
             $entityManager->flush();
             $this->addFlash('success', 'New trick is added');

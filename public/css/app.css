@@ -14,3 +14,15 @@
 .linkTxtDecoNone {
   text-decoration: none;
 }
+
+.trickVideosUl {
+  list-style-type: none;
+}
+
+.trickVideosUl li {
+  margin-bottom: 0.5em;
+}
+
+.trickVideosUl li input {
+  border-radius: 5px;
+}

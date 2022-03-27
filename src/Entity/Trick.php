@@ -83,6 +83,11 @@ class Trick implements JsonSerializable
      */
     private $trickVideos;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $mainPicture;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -304,6 +309,18 @@ class Trick implements JsonSerializable
                 $trickVideo->setTrick(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMainPicture(): ?string
+    {
+        return $this->mainPicture;
+    }
+
+    public function setMainPicture(?string $mainPicture): self
+    {
+        $this->mainPicture = $mainPicture;
 
         return $this;
     }

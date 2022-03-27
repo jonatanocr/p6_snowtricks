@@ -1,8 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="homepage_image_div" style="background-image: url('{{ asset('media/SnowboardTrick_mainImage.jpg') }}')">
-    </div>
+    {% if hideImg == 0 %}
+        <div class="homepage_image_div" style="background-image: url('{{ asset('media/SnowboardTrick_mainImage.jpg') }}')">
+        </div>
+    {% endif %}
     <div class="scroll_down_div">
         <a class="scroll_down_arrow" href="#tricks_block">&#10534;</a>
     </div>

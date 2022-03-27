@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\All;
+use Symfony\Component\Validator\Constraints\Composite;
 use Symfony\Component\Validator\Constraints\File;
 
 class NewTrickFormType extends AbstractType
@@ -22,21 +23,39 @@ class NewTrickFormType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'attr' => ['placeholder' => 'name'],
+                'attr' => ['placeholder' => 'name', 'class' => 'adminInput'],
                 'label' => false,
             ])
             ->add('description', TextareaType::class, [
-                'attr' => ['placeholder' => 'description'],
+                'attr' => ['placeholder' => 'description', 'class' => 'adminInput'],
                 'label' => false,
             ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
-                'choice_label' => 'name'
+                'choice_label' => 'name',
+                'multiple' => false,
+                'label' => false,
+            ])
+            ->add('mainPicture', FileType::class, [
+                'mapped' => false,
+                'required' => false,
+                'label' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid image (.jpeg or .png) document',
+                    ])
+                ],
             ])
             ->add('pictureFiles', FileType::class, [
                 'mapped' => false,
                 'required' => false,
                 'multiple' => true,
+                'label' => false,
                 'attr'     => ['accept' => 'image/*', 'multiple' => 'multiple'],
                  'constraints' => [
                      new All([new File(['maxSize' => '1024k', 'mimeTypes' => ['image/jpeg', 'image/png',], 'mimeTypesMessage' => 'Please upload a valid image (.jpeg or .png) document',])])
@@ -47,8 +66,11 @@ class NewTrickFormType extends AbstractType
                 'allow_add' => true,
                 'by_reference' => false,
                 'prototype'     => true,
+                'label' => false,
             ])
-            ->add('Save', SubmitType::class);
+            ->add('Save', SubmitType::class, [
+                'attr' => ['class' => 'btn btn-dark mt-4']
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

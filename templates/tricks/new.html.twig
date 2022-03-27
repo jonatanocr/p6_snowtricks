@@ -3,21 +3,45 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    <h1>New trick</h1>
-
+<h1 class="mt-4 text-center cool_font">New trick</h1>
+<div class="container text-center mt-4">
     {{ form_start(newTrickForm) }}
+    <div class="row mt-2">
         {{ form_row(newTrickForm.name) }}
+    </div>
+    <div class="row mt-2">
         {{ form_row(newTrickForm.description) }}
+    </div>
+    <div class="row mt-2 justify-content-center">
+        Category
+    </div>
+    <div class="row">
         {{ form_row(newTrickForm.category) }}
+    </div>
+    <div class="row mt-2 justify-content-center">
+        Main Picture
+    </div>
+    <div class="row">
+        {{ form_row(newTrickForm.mainPicture) }}
+    </div>
+    <div class="row mt-2 justify-content-center">
+        Picture(s)
+    </div>
+    <div class="row">
         {{ form_row(newTrickForm.pictureFiles) }}
+    </div>
+    <div class="row mt-2 justify-content-center">
+        Video(s) url
+    </div>
+    {% for video in newTrickForm.trickVideos %}
+        <div class="row">
+            {{ form_row(video.url) }}
+        </div>
+    {% endfor %}
 
-        {% for video in newTrickForm.trickVideos %}
-            <p>{{ form_row(video.url) }}</p>
-        {% endfor %}
 
 
-
-    <ul class="trickVideos"
+    <ul class="trickVideos trickVideosUl"
         data-index="{{ newTrickForm.trickVideos|length > 0 ? newTrickForm.trickVideos|last.vars.name + 1 : 0 }}"
         data-prototype="{{ form_widget(newTrickForm.trickVideos.vars.prototype)|e('html_attr') }}"
     ></ul>
@@ -25,5 +49,6 @@
     <button type="button" id="add_input" class="add_item_link" data-collection-holder-class="trickVideos">Add a video url</button>
 
     {{ form_end(newTrickForm) }}
+</div>
     <input id="pageType" type="hidden" value="trick_new">
 {% endblock %}
