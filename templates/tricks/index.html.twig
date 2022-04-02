@@ -19,6 +19,10 @@
             {% if loop.index == 1 or loop.index%5 == 0 %}
                 <div class="row justify-content-center">
             {% endif %}
+                {% set mainPicture = '' %}
+                {% if mainPicture and mainPicture is not null %}
+                    {% set mainPicture = mainPicture %}
+                {% endif %}
                 {% set firstPicture = '' %}
                 {% if trick.pictures and trick.pictures|first is not null %}
                     {% if trick.firstPicture is not null %}
@@ -33,7 +37,8 @@
                         'delete_id': delete_id,
                         'name': trick.name,
                         'description': trick.description,
-                        'picture': firstPicture
+                        'picture': firstPicture,
+                        'mainPicture': mainPicture
                     }
                 %}
             {% if loop.index%4 == 0 %}

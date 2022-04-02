@@ -1,87 +1,84 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1 class="text-center">SnowTricks</h1>
-    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
 
-    {% endif %}
+    <div class="container mt-4 mb-2 text-center">
+        {% if trick.mainPicture is not null %}
+            <img id="" src="{{ asset('uploads/tricks/' ~ trick.id ~ '/' ~ trick.mainPicture) }}" alt="" width="400">
+        {% else %}
+            <img id="" src="{{ asset('media/icon.jpg') }}" alt="" width="400">
+        {% endif %}
+    </div>
 
-    {% if trick.pictures|length > 0 %}
-        {% for picture in trick.pictures %}
-            {% if loop.index == 1 %}
-                <div>
-                    <img id="" src="{{ asset('uploads/tricks/' ~ trick.id ~ '/' ~ picture.filename) }}" alt="" width="200">
-                </div>
-            {% endif %}
-        {% endfor %}
-    {% else %}
-        <div>
-            <img id="" src="{{ asset('media/icon.jpg') }}" alt="" width="200">
+    <h1 class="text-center cool_font">{{ trick.name }}</h1>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-6" style="text-align: right;">
+                Author :
+            </div>
+            <div class="col-6 justify-content-end">
+                {{ trick.author.username}} &#183; {{ trick.createdDate |format_datetime(locale='en') }}
+            </div>
         </div>
-    {% endif %}
-    <h2 class="text-center">{{ trick.name }}</h2>
+        <div class="row justify-content-center">
+            <div class="col-6" style="text-align: right;">
+                Category :
+            </div>
+            <div class="col-6">
+                {{ trick.category.name }}
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-6" style="text-align: right;">
+                Description :
+            </div>
+            <div class="col-6">
+                {{ trick.description }}
+            </div>
+        </div>
+    </div>
+
     {% if trick.pictures|length > 0 %}
-        <div class="container">
+        <div class="container mt-4">
+            <div class="row">
             {% for picture in trick.pictures %}
-                    {% if (loop.index == 1 or loop.index is divisible by(5)) %}
-                        <div class="row">
-                    {% endif %}
-                            <div class="col-3">
-                                <img id="" src="{{ asset('uploads/tricks/' ~ trick.id ~ '/' ~ picture.filename) }}" alt="" width="300px;">
-                            </div>
-                    {% if loop.index is divisible by(4) %}
-                        </div>
-                    {% endif %}
+                <div class="col-3" style="padding: 1em;">
+                    <img src="{{ asset('uploads/tricks/' ~ trick.id ~ '/' ~ picture.filename) }}" width="100%" height="200px">
+                </div>
             {% endfor %}
+            </div>
         </div>
     {% endif %}
     {% if trick.trickVideos|length > 0 %}
-        <div class="container">
-            {% for video in trick.trickVideos %}
-                {% if (loop.index == 1 or loop.index is divisible by(5)) %}
-                    <div class="row">
-                {% endif %}
-                <div class="col-3">
-                    <div>
+        <div class="container mt-4">
+            <div class="row">
+                {% for video in trick.trickVideos %}
+                    <div class="col-3" style="padding: 1em;">
                         {{ video.url | raw }}
                     </div>
-                </div>
-                {% if loop.index is divisible by(4) %}
-                    </div>
-                {% endif %}
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
     {% endif %}
-    {#
-    <div>
-        <iframe width="420" height="315"
-                src="https://www.youtube.com/embed/tgbNymZ7vqY">
-        </iframe>
-    </div>
-    <div>
-        <iframe width="420" height="315"
-                src="https://www.youtube.com/embed/Z1ueYLygN4&ab_channel=Mose">
-        </iframe>
-    </div>
-    #}
-    <p style="margin-left: 4em;">{{ trick.author.username}} {{ trick.createdDate |format_datetime(locale='en') }}</p>
-    <p style="margin-left: 4em;">{{ trick.category.name }}</p>
-    <p class="text-center">{{ trick.description }}</p>
 
-    <p>Comment</p>
+    <h2 class="text-center cool_font">Comments</h2>
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-        {{ form_start(addCommentForm) }}
-        {{ form_end(addCommentForm) }}
+        <div class="container text-center">
+                {{ form_start(addCommentForm) }}
+                {{ form_end(addCommentForm) }}
+        </div>
     {% endif %}
 
-    <div id="comment_block">
+    <div class="text-center" id="comment_block">
     {% for comment in comments %}
         <p>[{{ comment.createdDate|date("j/n/Y H:i:s", "Europe/Paris") }}] {{ comment.author.username }}</p>
         <p>{{ comment.content }}</p>
     {% endfor %}
     </div>
-    {% if comments|length > 1 %}
+    <div class="container text-center mb-4">
         <button type="button" class="btn btn-dark" id="loadMoreCommentsBtn">Load More</button>
+    </div>
+    {% if comments|length > 1 %}
     {% endif %}
     <input id="trickId" type="hidden" value="{{ trick.id }}">
     <input id="pageType" type="hidden" value="trick_1">

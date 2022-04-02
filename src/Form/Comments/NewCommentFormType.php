@@ -15,10 +15,12 @@ class NewCommentFormType extends AbstractType
     {
         $builder
             ->add('content', TextareaType::class, [
-                'attr' => ['placeholder' => 'Comment'],
+                'attr' => ['placeholder' => 'Add Comment'],
                 'label' => false,
             ])
-            ->add('Save', SubmitType::class)
+            ->add('Save', SubmitType::class, [
+                'attr' => ['class' => 'btn btn-dark mt-2 mb-4']
+            ])
         ;
     }
 

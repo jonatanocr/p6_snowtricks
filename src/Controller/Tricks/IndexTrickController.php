@@ -45,7 +45,8 @@ class IndexTrickController extends AbstractController
                 'id' => $trick->getId(),
                 'name' => $trick->getName(),
                 'description' => $trick->getDescription(),
-                'firstPicture' => $trick->getFirstPicture()
+                'firstPicture' => $trick->getFirstPicture(),
+                'mainPicture' => $trick->getMainPicture()
             ]);
         }
         return new JsonResponse(json_encode($data));
