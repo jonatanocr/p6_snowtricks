@@ -6,18 +6,16 @@ namespace App\Controller\Tricks;
 
 use App\Entity\TrickVideo;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class DeleteTrickVideoController extends AbstractController
+class EditTrickVideoController extends AbstractController
 {
     /**
-     * @Route("/trick_video_delete/{id}", name="trick_video_delete")
+     * @Route("/trick_video_edit/{id}", name="trick_video_edit")
      */
-    public function deleteVideo(Request $request, int $id): Response
+    public function editVideo(Request $request, int $id): Response
     {
         $trickId = $request->get('trick_id');
         $trickVideo = $this->getDoctrine()
@@ -27,9 +25,9 @@ class DeleteTrickVideoController extends AbstractController
         if ($trickVideo === null) {
             $this->addFlash('danger', 'An error occured ( ⚆ _ ⚆ )');
         } else {
-            $entityManager->remove($trickVideo);
+            $trickVideo->setUrl($request->get('trick_url'));
             $entityManager->flush();
-            $this->addFlash('danger', 'Video successfully deleted');
+            $this->addFlash('success', 'Video successfully edited');
         }
         return $this->redirectToRoute('trick_update', ['id' => $trickId]);
     }

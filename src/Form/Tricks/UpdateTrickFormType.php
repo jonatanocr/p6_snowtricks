@@ -30,16 +30,34 @@ class UpdateTrickFormType extends AbstractType
                 'label' => false,
             ])
             ->add('category', EntityType::class, [
+                'label' => false,
                 'class' => Category::class,
                 'choice_label' => 'name'
             ])
+            ->add('mainPicture', FileType::class, [
+                'mapped' => false,
+                'required' => false,
+                'label' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid image (.jpeg or .png) document',
+                    ])
+                ],
+            ])
             ->add('pictureFiles', FileType::class, [
                 'mapped' => false,
+                'label' => false,
                 'required' => false,
                 'multiple' => true,
                 'attr'     => ['accept' => 'image/*', 'multiple' => 'multiple'],
                 'constraints' => [new All([new File(['maxSize' => '1024k', 'mimeTypes' => ['image/jpeg', 'image/png',], 'mimeTypesMessage' => 'Please upload a valid image (.jpeg or .png) document',])])],
             ])
+            /*
             ->add('trickVideos', CollectionType::class, [
                 'entry_type' => TrickVideoType::class,
                 'allow_add' => true,
@@ -47,8 +65,10 @@ class UpdateTrickFormType extends AbstractType
                 'prototype'     => true,
                 'label' => false,
             ])
-            ->add('Save', SubmitType::class)
-        ;
+            */
+            ->add('Save', SubmitType::class, [
+                'attr' => ['class' => 'btn btn-dark mt-4']
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

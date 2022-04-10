@@ -6,9 +6,6 @@
 
                 <div class="card_img_top_div" style="background-image: url('{{ asset('uploads/tricks/' ~ id ~ '/' ~ firstPicture.filename) }}')"></div>
 
-                {#
-                <img class="card-img-top" src="{{ asset('uploads/tricks/' ~ id ~ '/' ~ firstPicture.filename) }}" alt="Card image cap">
-                #}
             {% else %}
                 <div class="card_img_top_div" style="background-image: url('{{ asset('media/icon.jpg') }}')"></div>
             {% endif %}
@@ -21,9 +18,6 @@
                 </a>
             </h5>
             <p class="card-text">{{ description }}</p>
-            {#
-            <a href="{{ path('trick_display', {id: id} ) }}" class="btn btn-primary">Detail</a>
-            #}
         </div>
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
             <div class="edit_delete_block">

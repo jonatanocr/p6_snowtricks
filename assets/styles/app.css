@@ -78,3 +78,40 @@ body {
   text-decoration: none;
   color: black;
 }
+
+.alert {
+  width: 40%;
+  margin: 2em auto;
+  text-align: center;
+  font-weight: bold;
+}
+
+.adminInput {
+  border-radius: 5px;
+}
+
+.linkTxtDecoNone {
+  text-decoration: none;
+}
+
+.trickVideosUl {
+  list-style-type: none;
+}
+
+.trickVideosUl li {
+  margin-bottom: 0.5em;
+}
+
+.trickVideosUl li input {
+  border-radius: 5px;
+}
+
+.edit_trick_main_image_delete_cross {
+  margin: auto;
+  width: 400px;
+  text-align: right;
+  padding-right: 1em;
+  font-weight: bold;
+  position: relative;
+  top: 2em;
+}

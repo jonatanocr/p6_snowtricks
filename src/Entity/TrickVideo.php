@@ -22,6 +22,8 @@ class TrickVideo
      */
     private $url;
 
+    private $urlFrame;
+
     /**
      * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="trickVideos")
      * @ORM\JoinColumn(nullable=false)
@@ -33,11 +35,15 @@ class TrickVideo
         return $this->id;
     }
 
+    public function getUrlFrame(): ?string
+    {
+        $this->urlFrame = $this->convertUrl($this->url);
+        return $this->urlFrame;
+    }
+
     public function getUrl(): ?string
     {
-        //return $this->url;
-        $url = $this->convertUrl($this->url);
-        return $url;
+        return $this->url;
     }
 
     public function setUrl(string $url): self

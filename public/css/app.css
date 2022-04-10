@@ -1,28 +1,2 @@
 @import "~bootstrap/scss/bootstrap";
 
-.alert {
-  width: 40%;
-  margin: 2em auto;
-  text-align: center;
-  font-weight: bold;
-}
-
-.adminInput {
-  border-radius: 5px;
-}
-
-.linkTxtDecoNone {
-  text-decoration: none;
-}
-
-.trickVideosUl {
-  list-style-type: none;
-}
-
-.trickVideosUl li {
-  margin-bottom: 0.5em;
-}
-
-.trickVideosUl li input {
-  border-radius: 5px;
-}

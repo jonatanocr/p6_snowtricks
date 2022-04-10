@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
             return false;
         });
-    } else if (pageType === "trick_index" || pageType === "trick_update") {
+    } else if (pageType === "trick_index") {
         var buttonTricks = document.getElementById("loadMoreTricksBtn");
         var min = 8;
         buttonTricks.addEventListener("click", function (event) {
@@ -85,10 +85,23 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             });
         });
+    } else if (pageType === "trick_update") {
+        let urlCounter = 1;
+        const linkAddUrl = document.getElementById('linkAddUrl');
+        linkAddUrl.addEventListener("click", function (e) {
+            urlCounter += 1;
+            var moreUrl = document.createElement("input");
+            moreUrl.type = "text";
+            moreUrl.name = "url_" + urlCounter;
+            moreUrl.classList.add("mt-1");
+            moreUrl.placeholder = "Youtube url";
+            document.getElementById("url_input_div").appendChild(moreUrl);
+            document.getElementById("input_counter").value = urlCounter;
+        });
     }
-
     const btnAddUrl = document.getElementById('add_input');
     btnAddUrl.addEventListener("click", function (e) {
+
         const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
         const item = document.createElement('li');
         item.innerHTML = collectionHolder
