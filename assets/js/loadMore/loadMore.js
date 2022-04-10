@@ -32,7 +32,15 @@ document.addEventListener("DOMContentLoaded", function () {
                             }
                             var commentBlock = document.getElementById("comment_block");
                             var moreCommentHead = document.createElement("p");
-                            moreCommentHead.innerText = "[" + dateChange(element.created_date.date) + "] " + element.author.username;
+                            var img = document.createElement("img");
+                            if (element.authorIconPAth) {
+                                img.src = "../uploads/users/" + element.authorIconPAth;
+                            } else {
+                                img.src = "https://ocrp6.s3.eu-west-3.amazonaws.com/user_icon.png";
+                            }
+                            img.width = 25;
+                            moreCommentHead.innerText = "[" + dateChange(element.created_date.date) + "] " + element.author.username + " ";
+                            moreCommentHead.appendChild(img);
                             commentBlock.appendChild(moreCommentHead);
                             var moreCommentContent = document.createElement("p");
                             moreCommentContent.innerText = element.content;

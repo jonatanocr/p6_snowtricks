@@ -57,15 +57,6 @@ class UpdateTrickFormType extends AbstractType
                 'attr'     => ['accept' => 'image/*', 'multiple' => 'multiple'],
                 'constraints' => [new All([new File(['maxSize' => '1024k', 'mimeTypes' => ['image/jpeg', 'image/png',], 'mimeTypesMessage' => 'Please upload a valid image (.jpeg or .png) document',])])],
             ])
-            /*
-            ->add('trickVideos', CollectionType::class, [
-                'entry_type' => TrickVideoType::class,
-                'allow_add' => true,
-                'by_reference' => false,
-                'prototype'     => true,
-                'label' => false,
-            ])
-            */
             ->add('Save', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-dark mt-4']
             ]);

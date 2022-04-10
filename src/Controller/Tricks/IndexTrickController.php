@@ -6,6 +6,8 @@ use App\Entity\Comment;
 use App\Entity\Trick;
 use App\Entity\User;
 use App\Form\Comments\NewCommentFormType;
+use App\Repository\UserRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -62,6 +64,7 @@ class IndexTrickController extends AbstractController
     public function displayOne(Request $request, $id, Security $security): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
+        $userRepository = $this->getDoctrine()->getRepository(User::class);
         $trick = $this->getDoctrine()
             ->getRepository(Trick::class)
             ->find($id);
@@ -70,6 +73,12 @@ class IndexTrickController extends AbstractController
         }
         $commentRepository = $this->getDoctrine()->getRepository(Comment::class);
         $comments = $commentRepository->findByTrick(['trick' => $id]);
+        foreach ($comments as $comment) {
+            $commentUser = $userRepository->find($comment->getAuthor());
+            if (!empty($commentUser->getAvatarFilename())) {
+                $comment->setAuthorIconPAth($commentUser->getAvatarFilename());
+            }
+        }
         $comment = new Comment();
         $addComment = $this->createForm(NewCommentFormType::class, $comment);
         $addComment->handleRequest($request);
@@ -87,6 +96,12 @@ class IndexTrickController extends AbstractController
             $comment_min = $request->request->get('comment_min');
             $commentRepository = $this->getDoctrine()->getRepository(Comment::class);
             $comments = $commentRepository->findByTrick(['trick' => $id], $comment_min);
+            foreach ($comments as $comment) {
+                $commentUser = $userRepository->find($comment->getAuthor());
+                if (!empty($commentUser->getAvatarFilename())) {
+                    $comment->setAuthorIconPAth($commentUser->getAvatarFilename());
+                }
+            }
             return new JsonResponse(json_encode($comments));
         }
         return $this->render('tricks/one.html.twig', [

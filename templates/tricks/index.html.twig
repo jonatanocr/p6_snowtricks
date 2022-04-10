@@ -4,10 +4,10 @@
     {% if hideImg == 0 %}
         <div class="homepage_image_div" style="background-image: url('{{ asset('media/SnowboardTrick_mainImage.jpg') }}')">
         </div>
+        <div class="scroll_down_div">
+            <a class="scroll_down_arrow" href="#tricks_block">&#10534;</a>
+        </div>
     {% endif %}
-    <div class="scroll_down_div">
-        <a class="scroll_down_arrow" href="#tricks_block">&#10534;</a>
-    </div>
 
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
         <p class="text-right" style="font-size: 2em;">

@@ -71,7 +71,13 @@
 
     <div class="text-center" id="comment_block">
     {% for comment in comments %}
-        <p>[{{ comment.createdDate|date("j/n/Y H:i:s", "Europe/Paris") }}] {{ comment.author.username }}</p>
+        <p>[{{ comment.createdDate|date("j/n/Y H:i:s", "Europe/Paris") }}] {{ comment.author.username }}
+            {% if comment.authorIconPath is not null %}
+                <img id="" src="{{ asset('uploads/users/' ~ comment.authorIconPath) }}" alt="" width="25">
+            {% else %}
+                <img id="" src="https://ocrp6.s3.eu-west-3.amazonaws.com/user_icon.png" alt="" width="25">
+            {% endif %}
+        </p>
         <p>{{ comment.content }}</p>
     {% endfor %}
     </div>
