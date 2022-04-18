@@ -33,7 +33,8 @@ body {
 .card_img_top_div {
   height: 45% !important;
   max-height: 45% !important;
-  background-size: 100%;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
 }
 
 .card-body {
@@ -88,6 +89,7 @@ body {
 
 .adminInput {
   border-radius: 5px;
+  max-width: 16em;
 }
 
 .linkTxtDecoNone {
@@ -114,4 +116,50 @@ body {
   font-weight: bold;
   position: relative;
   top: 2em;
+}
+
+#login_btn, #delete_account_btn {
+  width: 6em;
+}
+
+#delete_account_btn {
+  width: 10em;
+}
+
+#avatar {
+  max-width: 300px;
+}
+
+#settings_avatar_input_div > div {
+  display: flex;
+  flex-direction: column !important;
+}
+
+#settings_form_avatar {
+  text-align: center;
+}
+
+#trick_main_picture {
+  max-width: 95% !important;
+}
+
+#url_input_div {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#url_input_div > input {
+  width: 12em;
+}
+
+#linkAddUrl {
+  text-decoration: none;
+  color: black;
+}
+
+@media (max-width:481px)  {
+  .alert {
+    width: 80%;
+  }
 }

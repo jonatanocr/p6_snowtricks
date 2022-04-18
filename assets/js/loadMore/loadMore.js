@@ -101,6 +101,7 @@ document.addEventListener("DOMContentLoaded", function () {
             var moreUrl = document.createElement("input");
             moreUrl.type = "text";
             moreUrl.name = "url_" + urlCounter;
+            moreUrl.style = "margin: auto;";
             moreUrl.classList.add("mt-1");
             moreUrl.placeholder = "Youtube url";
             document.getElementById("url_input_div").appendChild(moreUrl);
