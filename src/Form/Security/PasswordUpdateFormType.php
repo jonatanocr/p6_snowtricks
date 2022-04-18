@@ -19,8 +19,7 @@ class PasswordUpdateFormType extends AbstractType
     {
         $builder
             ->add('oldPassword', PasswordType::class, [
-                'attr' => ['placeholder' => 'Current password', 'class' => 'adminInput mt-4'],
-                'label' => false,
+                'attr' => ['placeholder' => 'Current password', 'class' => 'adminInput mt-4'], 'label' => false,
             ])
             ->add('newPassword', RepeatedType::class, [
                 'mapped' => false,
@@ -29,12 +28,10 @@ class PasswordUpdateFormType extends AbstractType
                 'options' => ['attr' => ['class' => 'password-field']],
                 'required' => true,
                 'first_options'  => [
-                    'attr' =>['placeholder' => 'New Password', 'class' => 'adminInput mt-2'],
-                    'label' => false,
+                    'attr' =>['placeholder' => 'New Password', 'class' => 'adminInput mt-2'], 'label' => false,
                 ],
                 'second_options' => [
-                    'attr' => ['placeholder' => 'Repeat Password', 'class' => 'adminInput mt-2'],
-                    'label' => false,
+                    'attr' => ['placeholder' => 'Repeat Password', 'class' => 'adminInput mt-2'], 'label' => false,
                 ],
                 'constraints' => [
                     new NotBlank(['message' => 'Please enter a password',]),

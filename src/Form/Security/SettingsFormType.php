@@ -24,21 +24,16 @@ class SettingsFormType extends AbstractType
                 'constraints' => [
                     new File([
                         'maxSize' => '1024k',
-                        'mimeTypes' => [
-                            'image/jpeg',
-                            'image/png',
-                        ],
+                        'mimeTypes' => ['image/jpeg', 'image/png',],
                         'mimeTypesMessage' => 'Please upload a valid image (.jpeg or .png) document',
                     ])
                 ],
             ])
             ->add('username', TextType::class, [
-                'attr' => ['placeholder' => 'Username', 'class' => 'adminInput'],
-                'label' => false,
+                'attr' => ['placeholder' => 'Username', 'class' => 'adminInput'], 'label' => false,
             ])
             ->add('email', EmailType::class, [
-                'attr' => ['placeholder' => 'Email', 'class' => 'adminInput'],
-                'label' => false,
+                'attr' => ['placeholder' => 'Email', 'class' => 'adminInput'], 'label' => false,
             ])
             ->add('Save', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-dark']
