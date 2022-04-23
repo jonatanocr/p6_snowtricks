@@ -31,6 +31,7 @@ class SettingsController extends AbstractController
      */
     public function updateUser(Request $request, UserPasswordHasherInterface $userPasswordHasher, SluggerInterface $slugger): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $entityManager = $this->getDoctrine()->getManager();
         $user = $entityManager->getRepository(User::class)->find($this->security->getUser()->getId());
         $formSettings = $this->createForm(SettingsFormType::class, $user);

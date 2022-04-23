@@ -21,6 +21,7 @@ class DeleteTrickController extends AbstractController
      */
     public function index(int $id): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $trick = $this->getDoctrine()
             ->getRepository(Trick::class)
             ->find($id);

@@ -19,6 +19,7 @@ class NewTrickController extends AbstractController
      */
     public function newTrick(Request $request, Security $security, SluggerInterface $slugger): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $trick = new Trick();
         $user = $security->getUser();
         $form = $this->createForm(NewTrickFormType::class, $trick);
