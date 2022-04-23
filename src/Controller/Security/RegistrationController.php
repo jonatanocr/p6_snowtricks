@@ -2,10 +2,13 @@
 
 namespace App\Controller\Security;
 
+use App\Entity\Trick;
 use App\Entity\User;
 use App\Form\Security\RegistrationFormType;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -59,18 +62,17 @@ class RegistrationController extends AbstractController
         $user = $entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
         if ($user === null) {
             $this->addFlash('danger', 'Account not found');
+            return $this->redirectToRoute('app_homepage');
+        } elseif ($user->getVerified() == 1) {
+            $this->addFlash('info', 'Your account is already verified');
+            return $this->redirectToRoute('app_homepage');
+        }
+        if ($user->getHash() === $hash) {
+            $user->setVerified(1);
+            $entityManager->flush();
+            $this->addFlash('success', 'Your account is now verified and you can login');
         } else {
-            if ($user->getVerified() == 1) {
-                $this->addFlash('info', 'Your account is already verified');
-            } else {
-                if ($user->getHash() === $hash) {
-                    $user->setVerified(1);
-                    $entityManager->flush();
-                    $this->addFlash('success', 'Your account is now verified and you can login');
-                } else {
-                    $this->addFlash('danger', 'An error occured');
-                }
-            }
+            $this->addFlash('danger', 'An error occured');
         }
         return $this->redirectToRoute('app_homepage');
     }
@@ -114,12 +116,31 @@ class RegistrationController extends AbstractController
         $user = $entityManager->getRepository(User::class)->find($currentUserId);
         if ($user === null) {
             $this->addFlash('danger', 'An error occured ( ⚆ _ ⚆ )');
-        } else {
-            $session = new Session();
-            $session->invalidate();
-            $entityManager->remove($user);
-            $entityManager->flush();
+            return $this->redirectToRoute('app_homepage');
         }
+        $avatarFileName = $user->getAvatarFilename();
+        $tricksList = $user->getTricks();
+        $filesystem = new Filesystem();
+        try {
+            if (!empty($avatarFileName)) {
+                $avatarFilePath = $this->getParameter('kernel.project_dir').'/public/uploads/users/'.$avatarFileName;
+                $filesystem->remove($avatarFilePath);
+            }
+        } catch (IOExceptionInterface $exception) {
+            $this->addFlash("danger", "An error occurred while deleting the avatar image");
+        }
+        foreach ($tricksList as $trick) {
+            try {
+                $trickFolder = $this->getParameter('kernel.project_dir').'/public/uploads/tricks/'.$trick->getId();
+                $filesystem->remove($trickFolder);
+            } catch (IOExceptionInterface $exception) {
+                $this->addFlash("danger", "An error occurred while deleting the trick images");
+            }
+        }
+        $session = new Session();
+        $session->invalidate();
+        $entityManager->remove($user);
+        $entityManager->flush();
         return $this->redirectToRoute('app_homepage');
     }
 

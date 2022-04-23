@@ -24,6 +24,8 @@ class Comment implements JsonSerializable
      */
     private $author;
 
+    private $authorIconPAth;
+
     /**
      * @ORM\Column(type="datetime")
      */
@@ -53,6 +55,18 @@ class Comment implements JsonSerializable
     public function setAuthor(?User $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getAuthorIconPath(): ?string
+    {
+        return $this->authorIconPAth;
+    }
+
+    public function setAuthorIconPAth(string $path)
+    {
+        $this->authorIconPAth = $path;
 
         return $this;
     }
@@ -101,7 +115,8 @@ class Comment implements JsonSerializable
                 'author' => $this->getAuthor(),
                 'created_date' => $this->getCreatedDate(),
                 'trick' => $this->getTrick(),
-                'content' => $this->getContent()
+                'content' => $this->getContent(),
+                'authorIconPAth' => $this->getAuthorIconPath()
             ];
     }
 }

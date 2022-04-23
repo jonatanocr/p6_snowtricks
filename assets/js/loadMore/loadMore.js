@@ -1,15 +1,18 @@
 
 export default function() {
-    return ``;
-};
+    return "";
+}
 
 document.addEventListener("DOMContentLoaded", function () {
-    const $ = require('jquery');
-    var pageType = document.getElementById("pageType").value;
+    const $ = require("jquery");
+    let pageType = '';
+    if (document.getElementById("pageType").value != null){
+        pageType = document.getElementById("pageType").value;
+    }
     if (pageType === "trick_1") {
         var buttonComments = document.getElementById("loadMoreCommentsBtn");
         var min = 2;
-        var trickId = document.getElementById('trickId').value;
+        var trickId = document.getElementById("trickId").value;
         buttonComments.addEventListener("click", function (event) {
             $.ajax({
                 url: "/trick/" + trickId,
@@ -23,19 +26,26 @@ document.addEventListener("DOMContentLoaded", function () {
                     var moreCommentsData = JSON.parse(data);
                     if (moreCommentsData.length > 0) {
                         moreCommentsData.forEach((element) => {
-                            console.log(element);
                             function dateChange(d) {
                                 var d2 = new Date(d);
-                                return d2.getDate() + '/' + (d2.getMonth()+1) + '/' + d2.getFullYear() + ' ' + d2.getHours() + ':' + d2.getMinutes() + ':' + d2.getSeconds()
+                                return d2.getDate() + "/" + (d2.getMonth()+1) + "/" + d2.getFullYear() + " " + d2.getHours() + ":" + d2.getMinutes() + ":" + d2.getSeconds();
                             }
-                            var commentBlock = document.getElementById('comment_block');
+                            var commentBlock = document.getElementById("comment_block");
                             var moreCommentHead = document.createElement("p");
-                            moreCommentHead.innerText = '[' + dateChange(element.created_date.date) + '] ' + element.author.username;
+                            var img = document.createElement("img");
+                            if (element.authorIconPAth) {
+                                img.src = "../uploads/users/" + element.authorIconPAth;
+                            } else {
+                                img.src = "https://ocrp6.s3.eu-west-3.amazonaws.com/user_icon.png";
+                            }
+                            img.width = 25;
+                            moreCommentHead.innerText = "[" + dateChange(element.created_date.date) + "] " + element.author.username + " ";
+                            moreCommentHead.appendChild(img);
                             commentBlock.appendChild(moreCommentHead);
                             var moreCommentContent = document.createElement("p");
                             moreCommentContent.innerText = element.content;
                             commentBlock.appendChild(moreCommentContent);
-                        } )
+                        } );
                         min+= 2;
                     } else {
                         buttonComments.style.display = "none";
@@ -46,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     } else if (pageType === "trick_index") {
         var buttonTricks = document.getElementById("loadMoreTricksBtn");
-        var min = 4;
+        var min = 8;
         buttonTricks.addEventListener("click", function (event) {
             $.ajax({
                 url: "/loadmore",
@@ -57,23 +67,61 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 async: true,
                 success: function (data) {
-                    var moreTrickRow = document.createElement("div");
-                    moreTrickRow.classList.add("row");
-                    moreTrickRow.classList.add("justify-content-center");
+                    var moreTrickRow1 = document.createElement("div");
+                    moreTrickRow1.classList.add("row");
+                    moreTrickRow1.classList.add("justify-content-center");
+                    var moreTrickRow2 = document.createElement("div");
+                    moreTrickRow2.classList.add("row");
+                    moreTrickRow2.classList.add("justify-content-center");
                     var moreTricksData = JSON.parse(data);
                     if (moreTricksData.length > 0) {
-                        moreTricksData.forEach((element) => {
-                            moreTrickRow.innerHTML += element;
-                            document.getElementById("tricks_block").appendChild(moreTrickRow);
+                        moreTricksData.forEach((element, index) => {
+                            if (index < 4) {
+                                moreTrickRow1.innerHTML += element;
+                                document.getElementById("tricks_block").appendChild(moreTrickRow1);
+                            } else {
+                                moreTrickRow2.innerHTML += element;
+                                document.getElementById("tricks_block").appendChild(moreTrickRow2);
+                            }
+
                         })
                     }
-                    if (moreTricksData.length < 4) {
+                    if (moreTricksData.length < 8) {
                         document.getElementById("loadMoreTricksBtn").style.display = "none";
                     }
-                    min+= 4;
+                    min+= 8;
                 }
             });
         });
+    } else if (pageType === "trick_update") {
+        let urlCounter = 1;
+        const linkAddUrl = document.getElementById('linkAddUrl');
+        linkAddUrl.addEventListener("click", function (e) {
+            urlCounter += 1;
+            var moreUrl = document.createElement("input");
+            moreUrl.type = "text";
+            moreUrl.name = "url_" + urlCounter;
+            moreUrl.style = "margin: auto;";
+            moreUrl.classList.add("mt-1");
+            moreUrl.placeholder = "Youtube url";
+            document.getElementById("url_input_div").appendChild(moreUrl);
+            document.getElementById("input_counter").value = urlCounter;
+        });
     }
+    const btnAddUrl = document.getElementById('add_input');
+    btnAddUrl.addEventListener("click", function (e) {
+
+        const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
+        const item = document.createElement('li');
+        item.innerHTML = collectionHolder
+                .dataset
+                .prototype
+                .replace(
+                    /__name__/g,
+                    collectionHolder.dataset.index
+                );
+        collectionHolder.appendChild(item);
+        collectionHolder.dataset.index++;
+        });
 
 });

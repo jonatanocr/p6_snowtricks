@@ -31,14 +31,11 @@ class SettingsController extends AbstractController
      */
     public function updateUser(Request $request, UserPasswordHasherInterface $userPasswordHasher, SluggerInterface $slugger): Response
     {
-        $user = new User();
         $entityManager = $this->getDoctrine()->getManager();
         $user = $entityManager->getRepository(User::class)->find($this->security->getUser()->getId());
         $formSettings = $this->createForm(SettingsFormType::class, $user);
-
         $changePassword = new ChangePassword();
         $formPassword = $this->createForm(PasswordUpdateFormType::class, $changePassword);
-
         $formSettings->handleRequest($request);
         if ($formSettings->isSubmitted() && $formSettings->isValid()) {
             $avatarFile = $formSettings->get('avatar')->getData();
@@ -61,7 +58,7 @@ class SettingsController extends AbstractController
                         $newFilename
                     );
                 } catch (FileException $e) {
-
+                    $this->addFlash("danger", "An error occurred while uploading your image");
                 }
                 $user->setAvatarFilename($newFilename);
             }
@@ -70,9 +67,7 @@ class SettingsController extends AbstractController
             $this->addFlash('success', 'Account updated');
             $this->redirectToRoute('settings');
         }
-
         $formPassword->handleRequest($request);
-
         if ($formPassword->isSubmitted() && $formPassword->isValid()) {
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
@@ -80,17 +75,11 @@ class SettingsController extends AbstractController
                     $formPassword->get('newPassword')->getData()
                 )
             );
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-
             $entityManager->persist($user);
             $entityManager->flush();
             $this->addFlash('success', 'Password updated');
             $this->redirectToRoute('settings');
         }
-
         return $this->render('settings/settings.html.twig', [
             'settingsForm' => $formSettings->createView(),
             'passwordForm' => $formPassword->createView(),

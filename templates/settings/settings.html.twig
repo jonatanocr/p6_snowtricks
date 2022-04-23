@@ -3,34 +3,55 @@
 {% block title %}Settings{% endblock %}
 
 {% block body %}
-    <h1>Settings</h1>
+    <h1 class="mt-4 text-center cool_font">Settings</h1>
+    <div class="container text-center mt-4">
+        <div class="row justify-content-center mt-2">
+            <img id="avatar" src="{{ asset('uploads/users/' ~ app.user.avatarFilename) }}" alt="" width="200">
+        </div>
+        {{ form_start(settingsForm) }}
+        <div class="row justify-content-center mt-2" id="settings_avatar_input_div">
+            {{ form_row(settingsForm.avatar) }}
+        </div>
+        <div class="row justify-content-center mt-2">
+            {{ form_row(settingsForm.username) }}
+        </div>
+        <div class="row justify-content-center mt-2">
+            {{ form_row(settingsForm.email) }}
+        </div>
 
-    <img id="avatar" src="{{ asset('uploads/users/' ~ app.user.avatarFilename) }}" alt="" width="200">
+        <div class="row justify-content-center mt-2">
+            {{ form_row(settingsForm.Save) }}
+        </div>
 
+        {{ form_end(settingsForm) }}
 
-    {{ form_start(settingsForm) }}
-    {{ form_row(settingsForm.avatar) }}
-    {{ form_row(settingsForm.username) }}
-    {{ form_row(settingsForm.email) }}
-    <button type="submit" class="btn">Save</button>
-    {{ form_end(settingsForm) }}
+        <div class="row justify-content-center mt-2">
+            {{ form_start(passwordForm) }}
+            {{ form_row(passwordForm.oldPassword) }}
+            {{ form_row(passwordForm.newPassword) }}
+            {{ form_row(passwordForm.updPassword, {'label': 'Update password'}) }}
+            {{ form_end(passwordForm) }}
+        </div>
 
+        <!-- Button trigger modal -->
+        <div class="row justify-content-center mt-4 mb-5">
+            <button id="delete_account_btn" type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
+                Delete account
+            </button>
 
-    {{ form(passwordForm) }}
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
-        Delete account
-    </button>
-    <!-- Modal -->
-    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-body text-center">
-                    Are you sure you want to delete your account ?
-                </div>
-                <div class="modal-footer justify-content-center">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, I keep my account</button>
-                    <a class="btn btn-danger" href="{{ path('delete_user') }}" role="button">Yes, delete my account</a>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-body text-center">
+                        Are you sure you want to delete your account ?
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, I keep my account</button>
+                        <a class="btn btn-danger" href="{{ path('delete_user') }}" role="button">Yes, delete my account</a>
+                    </div>
                 </div>
             </div>
         </div>

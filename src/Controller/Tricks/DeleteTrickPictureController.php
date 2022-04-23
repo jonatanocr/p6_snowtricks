@@ -16,7 +16,7 @@ class DeleteTrickPictureController extends AbstractController
     /**
      * @Route("/trick_picture_delete/{id}", name="trick_picture_delete")
      */
-    public function index(Request $request, int $id): Response
+    public function deletePicture(Request $request, int $id): Response
     {
         $trickId = $request->get('trick_id');
         $trickPicture = $this->getDoctrine()
@@ -39,5 +39,32 @@ class DeleteTrickPictureController extends AbstractController
             $this->addFlash('danger', 'Picture successfully deleted');
         }
         return $this->redirectToRoute('trick_update', ['id' => $trickId]);
+    }
+
+    /**
+     * @Route("/trick_main_picture_delete/{id}", name="trick_main_picture_delete")
+     */
+    public function deleteMainPicture(Request $request, int $id): Response
+    {
+        $trick = $this->getDoctrine()
+            ->getRepository(Trick::class)
+            ->find($id);
+        $entityManager = $this->getDoctrine()->getManager();
+        if ($trick->getMainPicture() === null) {
+            $this->addFlash('danger', 'An error occured ( ⚆ _ ⚆ )');
+        } else {
+            $filename = $trick->getMainPicture();
+            $filesystem = new Filesystem();
+            try {
+                $trickPicturePath = $this->getParameter('kernel.project_dir').'/public/uploads/tricks/'.$id.'/'.$filename;
+                $filesystem->remove($trickPicturePath);
+            } catch (IOExceptionInterface $exception) {
+                $this->addFlash("danger", "An error occurred while deleting picture");
+            }
+            $trick->setMainPicture(null);
+            $entityManager->flush();
+            $this->addFlash('danger', 'Picture successfully deleted');
+        }
+        return $this->redirectToRoute('trick_update', ['id' => $id]);
     }
 }

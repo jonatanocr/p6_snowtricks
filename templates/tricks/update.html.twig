@@ -1,32 +1,126 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Update trick{% endblock %}
 
 {% block body %}
-    <h1>Update trick</h1>
 
+    <div class="container mt-4 mb-2 text-center">
+        {% if trick.mainPicture is not null %}
+                <a href="{{ path('trick_main_picture_delete', {id: trick.id} ) }}" style="text-decoration: none;">&#10060;</a>
+            <img id="trick_main_picture" src="{{ asset('uploads/tricks/' ~ trick.id ~ '/' ~ trick.mainPicture) }}" alt="" width="400">
+        {% else %}
+            <img id="trick_main_picture" src="{{ asset('media/icon.jpg') }}" width="400">
+        {% endif %}
+    </div>
+
+    <h1 class="text-center cool_font">Edit {{ trick.name }}</h1>
     {{ form_start(updateTrickForm) }}
+    <div class="container text-center mt-4">
+        <div class="row mt-2 justify-content-center" style="font-weight: bold">
+            Name
+        </div>
+        <div class="row mt-2 justify-content-center">
+            {{ form_row(updateTrickForm.name) }}
+        </div>
+        <div class="row mt-2 justify-content-center" style="font-weight: bold">
+            Description
+        </div>
+        <div class="row mt-2 justify-content-center">
+            {{ form_row(updateTrickForm.description) }}
+        </div>
+        <div class="row mt-2 justify-content-center" style="font-weight: bold">
+            Category
+        </div>
+        <div class="row mt-2 justify-content-center">
+            {{ form_row(updateTrickForm.category) }}
+        </div>
+        <div class="row mt-2 justify-content-center" style="font-weight: bold">
+            Main Picture
+        </div>
+        <div class="row mt-2 justify-content-center">
+            {{ form_row(updateTrickForm.mainPicture) }}
+        </div>
+        <div class="row mt-2 justify-content-center" style="font-weight: bold">
+            Add pictures
+        </div>
+        <div class="row mt-2 justify-content-center">
+            {{ form_row(updateTrickForm.pictureFiles) }}
+        </div>
+        <div class="row mt-2 justify-content-center">
+            {{ form_row(updateTrickForm.Save) }}
+        </div>
+    </div>
     {{ form_end(updateTrickForm) }}
 
-    {% if trick.pictures|length > 0 %}
-        <div class="container">
-            {% for picture in trick.pictures %}
-                {% if (loop.index == 1 or loop.index is divisible by(5)) %}
-                    <div class="row">
-                {% endif %}
-                <div class="col-3">
-                    <img id="" src="{{ asset('uploads/tricks/' ~ trick.id ~ '/' ~ picture.filename) }}" alt="" width="300px;">
-                    <form method="post" action="{{ path('trick_picture_delete', {id: picture.id} ) }}" style="display: inline-block">
-                        <input type="hidden" name="_method" value="DELETE">
-                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ picture.id) }}">
-                        <input type="hidden" name="trick_id" value="{{ trick.id }}">
-                        <input type="hidden" name="filename" value="{{ picture.filename }}">
-                        <button class="btn btn-danger">Delete</button>
-                    </form>
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <form method="post" action="{{ path('trick_video_add', {id: trick.id} ) }}" style="display: inline-block; justify-content: center; text-align: center;">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ trick.id) }}">
+                <input type="hidden" name="input_counter" id="input_counter" value="1">
+                <div id="url_input_div">
+                    <input type="text" name="url_1" placeholder="Youtube url" style="margin: auto;">
                 </div>
-                {% if loop.index is divisible by(4) %}
+                <a href="javascript:void(0);" id="linkAddUrl">+</a><br>
+                <button class="btn btn-dark mt-2">Add video</button>
+            </form>
+        </div>
+    </div>
+
+    <input id="pageType" type="hidden" value="trick_update">
+
+    {% if trick.pictures|length > 0 %}
+        <div class="container mt-4">
+            <div class="row">
+                {% for picture in trick.pictures %}
+                    <div class="col-lg-3 col-md-6 col-12" style="padding: 1em;">
+                        <img src="{{ asset('uploads/tricks/' ~ trick.id ~ '/' ~ picture.filename) }}" width="100%" height="200px">
+                        <div class="text-center mt-2">
+                            <form method="post" action="{{ path('trick_picture_delete', {id: picture.id} ) }}" style="display: inline-block">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ picture.id) }}">
+                                <input type="hidden" name="trick_id" value="{{ trick.id }}">
+                                <input type="hidden" name="filename" value="{{ picture.filename }}">
+                                <button class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
                     </div>
-                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+
+    {% if trick.trickVideos|length > 0 %}
+        <div class="container mt-4">
+            <div class="row">
+            {% for video in trick.trickVideos %}
+                <div class="col-lg-3 col-md-6 col-12" style="padding: 1em;">
+                    <div>
+                        {{ video.urlFrame | raw }}
+                    </div>
+                    <div>
+                        <form method="post" action="{{ path('trick_video_edit', {id: video.id} ) }}" style="display: inline-block">
+                            <div class="mt-2 mb-2" style="display: flex;">
+                                <div style="margin-right: 0.5em;">
+                                    <button class="btn btn-primary">Edit </button>
+                                </div>
+                                <div>
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('edit' ~ video.id) }}">
+                                    <input type="hidden" name="trick_id" value="{{ trick.id }}">
+                                    <input type="text" name="trick_url" value="{{ video.url | raw }}">
+                                </div>
+                            </div>
+                        </form>
+                        <div>
+                            <form method="post" action="{{ path('trick_video_delete', {id: video.id} ) }}" style="display: inline-block">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ video.id) }}">
+                                <input type="hidden" name="trick_id" value="{{ trick.id }}">
+                                <button class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             {% endfor %}
         </div>
     {% endif %}

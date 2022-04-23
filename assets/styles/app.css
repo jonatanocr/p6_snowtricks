@@ -1,3 +1,165 @@
 body {
   background-color: lightgray;
+  font-family: 'Roboto', sans-serif;
+}
+
+.cool_font {
+  font-family: 'Shadows Into Light', cursive;
+}
+
+.homepage_image_div {
+  height: 100vh !important;
+  max-width: 100vw !important;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.homepage_image_img {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+#tricks_block {
+  margin-top: 3em;
+}
+/* tricks card stuff */
+.card_div {
+  margin-left: 1em;
+  margin-right: 1em;
+  width: 18em;
+  height: 25em;
+}
+
+.card_img_top_div {
+  height: 45% !important;
+  max-height: 45% !important;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.card-body {
+  height: 45%;
+}
+
+.edit_delete_block {
+  height: 10%;
+}
+
+.card_col {
+  display: flex;
+  justify-content: center;
+}
+
+.card_title_link {
+  font-size: 1.3em;
+  font-weight: bold;
+  text-align: center;
+}
+
+.edit_delete_block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 1.5em;
+}
+
+.edit_trick_btn {
+  font-size: 2em;
+}
+
+.scroll_down_div {
+  font-size: 3em;
+  text-align: right;
+  padding-right: 2em;
+  position: relative;
+  top: -180px;
+}
+
+.scroll_down_arrow {
+  text-decoration: none;
+  color: black;
+}
+
+.alert {
+  width: 40%;
+  margin: 2em auto;
+  text-align: center;
+  font-weight: bold;
+}
+
+.adminInput {
+  border-radius: 5px;
+  max-width: 16em;
+}
+
+.linkTxtDecoNone {
+  text-decoration: none;
+}
+
+.trickVideosUl {
+  list-style-type: none;
+}
+
+.trickVideosUl li {
+  margin-bottom: 0.5em;
+}
+
+.trickVideosUl li input {
+  border-radius: 5px;
+}
+
+.edit_trick_main_image_delete_cross {
+  margin: auto;
+  width: 400px;
+  text-align: right;
+  padding-right: 1em;
+  font-weight: bold;
+  position: relative;
+  top: 2em;
+}
+
+#login_btn, #delete_account_btn {
+  width: 6em;
+}
+
+#delete_account_btn {
+  width: 10em;
+}
+
+#avatar {
+  max-width: 300px;
+}
+
+#settings_avatar_input_div > div {
+  display: flex;
+  flex-direction: column !important;
+}
+
+#settings_form_avatar {
+  text-align: center;
+}
+
+#trick_main_picture {
+  max-width: 95% !important;
+}
+
+#url_input_div {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#url_input_div > input {
+  width: 12em;
+}
+
+#linkAddUrl {
+  text-decoration: none;
+  color: black;
+}
+
+@media (max-width:481px)  {
+  .alert {
+    width: 80%;
+  }
 }

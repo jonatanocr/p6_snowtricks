@@ -7,6 +7,7 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -23,23 +24,21 @@ class SettingsFormType extends AbstractType
                 'constraints' => [
                     new File([
                         'maxSize' => '1024k',
-                        'mimeTypes' => [
-                            'image/jpeg',
-                            'image/png',
-                        ],
+                        'mimeTypes' => ['image/jpeg', 'image/png',],
                         'mimeTypesMessage' => 'Please upload a valid image (.jpeg or .png) document',
                     ])
                 ],
             ])
             ->add('username', TextType::class, [
-                'attr' => ['placeholder' => 'Username'],
-                'label' => false,
+                'attr' => ['placeholder' => 'Username', 'class' => 'adminInput'], 'label' => false,
             ])
             ->add('email', EmailType::class, [
-                'attr' => ['placeholder' => 'Email'],
-                'label' => false,
+                'attr' => ['placeholder' => 'Email', 'class' => 'adminInput'], 'label' => false,
             ])
-        ;
+            ->add('Save', SubmitType::class, [
+                'attr' => ['class' => 'btn btn-dark']
+            ]);
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void

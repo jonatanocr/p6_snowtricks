@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -76,10 +78,21 @@ class Trick implements JsonSerializable
      */
     private $pictureFiles;
 
+    /**
+     * @ORM\OneToMany(targetEntity=TrickVideo::class, mappedBy="trick", orphanRemoval=true, cascade={"persist"})
+     */
+    private $trickVideos;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $mainPicture;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->pictures = new ArrayCollection();
+        $this->trickVideos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -268,5 +281,47 @@ class Trick implements JsonSerializable
     public function getFirstPicture()
     {
         return $this->firstPicture;
+    }
+
+    /**
+     * @return Collection|TrickVideo[]
+     */
+    public function getTrickVideos(): Collection
+    {
+        return $this->trickVideos;
+    }
+
+    public function addTrickVideo(TrickVideo $trickVideo): self
+    {
+        if (!$this->trickVideos->contains($trickVideo)) {
+            $this->trickVideos[] = $trickVideo;
+            $trickVideo->setTrick($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTrickVideo(TrickVideo $trickVideo): self
+    {
+        if ($this->trickVideos->removeElement($trickVideo)) {
+            // set the owning side to null (unless already changed)
+            if ($trickVideo->getTrick() === $this) {
+                $trickVideo->setTrick(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getMainPicture(): ?string
+    {
+        return $this->mainPicture;
+    }
+
+    public function setMainPicture(?string $mainPicture): self
+    {
+        $this->mainPicture = $mainPicture;
+
+        return $this;
     }
 }

@@ -69,7 +69,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, JsonSer
     private $avatarFilename;
 
     /**
-     * @ORM\OneToMany(targetEntity=Trick::class, mappedBy="author")
+     * @ORM\OneToMany(targetEntity=Trick::class, mappedBy="author", orphanRemoval=true)
      */
     private $tricks;
 

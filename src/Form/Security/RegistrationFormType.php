@@ -19,17 +19,17 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('username', TextType::class, [
-                'attr' => ['placeholder' => 'Username'],
+                'attr' => ['placeholder' => 'Username', 'class' => 'adminInput'],
                 'label' => false,
             ])
             ->add('email', EmailType::class, [
-                'attr' => ['placeholder' => 'Email'],
+                'attr' => ['placeholder' => 'Email', 'class' => 'adminInput'],
                 'label' => false,
             ])
             ->add('plainPassword', PasswordType::class, [
                 'label' => false,
                 'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password', 'placeholder' => 'Password'],
+                'attr' => ['autocomplete' => 'new-password', 'placeholder' => 'Password', 'class' => 'adminInput'],
                 'constraints' => [
                     new NotBlank(['message' => 'Please enter a password',]),
                     new Length([
@@ -39,7 +39,9 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('Register', SubmitType::class);
+            ->add('Register', SubmitType::class, [
+                'attr' => ['class' => 'btn btn-dark']
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

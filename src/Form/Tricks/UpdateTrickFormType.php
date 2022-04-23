@@ -6,6 +6,7 @@ use App\Entity\Category;
 use App\Entity\Trick;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -29,32 +30,36 @@ class UpdateTrickFormType extends AbstractType
                 'label' => false,
             ])
             ->add('category', EntityType::class, [
+                'label' => false,
                 'class' => Category::class,
                 'choice_label' => 'name'
             ])
-            ->add('pictureFiles', FileType::class, [
+            ->add('mainPicture', FileType::class, [
                 'mapped' => false,
                 'required' => false,
-                'multiple' => true,
-                'attr'     => [
-                    'accept' => 'image/*',
-                    'multiple' => 'multiple'
-                ],
+                'label' => false,
                 'constraints' => [
-                    new All([
-                        new File([
-                            'maxSize' => '1024k',
-                            'mimeTypes' => [
-                                'image/jpeg',
-                                'image/png',
-                            ],
-                            'mimeTypesMessage' => 'Please upload a valid image (.jpeg or .png) document',
-                        ])
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid image (.jpeg or .png) document',
                     ])
                 ],
             ])
-            ->add('Save', SubmitType::class)
-        ;
+            ->add('pictureFiles', FileType::class, [
+                'mapped' => false,
+                'label' => false,
+                'required' => false,
+                'multiple' => true,
+                'attr'     => ['accept' => 'image/*', 'multiple' => 'multiple'],
+                'constraints' => [new All([new File(['maxSize' => '1024k', 'mimeTypes' => ['image/jpeg', 'image/png',], 'mimeTypesMessage' => 'Please upload a valid image (.jpeg or .png) document',])])],
+            ])
+            ->add('Save', SubmitType::class, [
+                'attr' => ['class' => 'btn btn-dark mt-4']
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

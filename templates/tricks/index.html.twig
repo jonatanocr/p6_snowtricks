@@ -1,37 +1,54 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1 class="text-center">SnowTricks</h1>
+    {% if hideImg == 0 %}
+        <div class="homepage_image_div" style="background-image: url('{{ asset('media/SnowboardTrick_mainImage.jpg') }}')">
+        </div>
+        <div class="scroll_down_div">
+            <a class="scroll_down_arrow" href="#tricks_block">&#10534;</a>
+        </div>
+    {% endif %}
+
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-        <p class="text-right" style="font-size: 2.5em;">
-            <a class="nav-link" href="{{ path('new_trick') }}" style="text-align: right; margin-right: 2em;">&#43;</a>
+        <p class="text-right" style="font-size: 2em;">
+            <a class="nav-link" href="{{ path('new_trick') }}" style="text-align: right; padding-right: 4em;">Add New&#43;</a>
         </p>
     {% endif %}
-    {% set i = 0 %}
     <div id="tricks_block">
-        <div class="row justify-content-center">
         {% for trick in tricks %}
-            {% set firstPicture = '' %}
-            {% if trick.pictures and trick.pictures|first is not null %}
-                {% if trick.firstPicture is not null %}
-                    {% set firstPicture = trick.pictures|first %}
-                {% endif %}
+            {% if loop.index == 1 or loop.index%5 == 0 %}
+                <div class="row justify-content-center">
             {% endif %}
-            {% set delete_id = trick.id %}
-            {%
-                include 'tricks/card.html.twig'
-                with {
-                    'id': trick.id,
-                    'delete_id': delete_id,
-                    'name': trick.name,
-                    'description': trick.description,
-                    'picture': firstPicture
-                }
-            %}
+                {% set mainPicture = '' %}
+                {% if mainPicture and mainPicture is not null %}
+                    {% set mainPicture = mainPicture %}
+                {% endif %}
+                {% set firstPicture = '' %}
+                {% if trick.pictures and trick.pictures|first is not null %}
+                    {% if trick.firstPicture is not null %}
+                        {% set firstPicture = trick.pictures|first %}
+                    {% endif %}
+                {% endif %}
+                {% set delete_id = trick.id %}
+                {%
+                    include 'tricks/card.html.twig'
+                    with {
+                        'id': trick.id,
+                        'delete_id': delete_id,
+                        'name': trick.name,
+                        'description': trick.description,
+                        'picture': firstPicture,
+                        'mainPicture': mainPicture
+                    }
+                %}
+            {% if loop.index%4 == 0 %}
+                </div>
+            {% endif %}
         {% endfor %}
-        </div>
     </div>
-    <button type="button" class="btn btn-info" id="loadMoreTricksBtn">Load More</button>
+    <div class="text-center mb-4">
+        <button type="button" class="btn btn-dark" id="loadMoreTricksBtn">Load More</button>
+    </div>
     <input id="pageType" type="hidden" value="trick_index">
 
 {% endblock %}
