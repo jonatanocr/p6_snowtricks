@@ -10,8 +10,8 @@
     {% endif %}
 
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-        <p class="text-right" style="font-size: 2em;">
-            <a class="nav-link" href="{{ path('new_trick') }}" style="text-align: right; padding-right: 4em;">Add New&#43;</a>
+        <p class="text-right" id="add_new_trick_p">
+            <a class="nav-link" id="add_new_trick_a" href="{{ path('new_trick') }}">Add New&#43;</a>
         </p>
     {% endif %}
     <div id="tricks_block">

@@ -13,7 +13,7 @@
     <h1 class="text-center cool_font">{{ trick.name }}</h1>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-6" style="text-align: right;">
+            <div class="col-6 trick_detail_left_col">
                 Author :
             </div>
             <div class="col-6 justify-content-end">
@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="row justify-content-center">
-            <div class="col-6" style="text-align: right;">
+            <div class="col-6 trick_detail_left_col">
                 Category :
             </div>
             <div class="col-6">
@@ -29,7 +29,7 @@
             </div>
         </div>
         <div class="row justify-content-center">
-            <div class="col-6" style="text-align: right;">
+            <div class="col-6 trick_detail_left_col">
                 Description :
             </div>
             <div class="col-6">
@@ -42,7 +42,7 @@
         <div class="container mt-4">
             <div class="row">
             {% for picture in trick.pictures %}
-                <div class="col-lg-3 col-md-6 col-12" style="padding: 1em;">
+                <div class="col-lg-3 col-md-6 col-12 p-1">
                     <img src="{{ asset('uploads/tricks/' ~ trick.id ~ '/' ~ picture.filename) }}" width="100%" height="200px">
                 </div>
             {% endfor %}
@@ -53,7 +53,7 @@
         <div class="container mt-4">
             <div class="row">
                 {% for video in trick.trickVideos %}
-                    <div class="col-lg-3 col-md-6 col-12" style="padding: 1em;">
+                    <div class="col-lg-3 col-md-6 col-12 p-1">
                         {{ video.urlFrame | raw }}
                     </div>
                 {% endfor %}
