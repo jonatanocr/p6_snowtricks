@@ -18,8 +18,8 @@ git clone https://github.com/jonatanocr/p6_snowtricks.git
 cd p6_snowtricks
 # make Composer install the project's dependencies into vendor/
 composer install
+edit .env.exemple to .env file to match your configuration
 ```
-edit .env file DATABASE_URL= to match your local configuration
 
 ### 4. Set the database
 ```
@@ -27,6 +27,14 @@ edit .env file DATABASE_URL= to match your local configuration
 php bin/console doctrine:database:create
 # Add database schema: 
 php bin/console doctrine:migrations:migrate
+# You can load the fixtures
+php bin/console doctrine:fixtures:load
+```
+
+### 5. Yarn
+```
+yarn install --force
+yarn encore production
 ```
 
 ### 5. Enjoy
