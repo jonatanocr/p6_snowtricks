@@ -16,9 +16,9 @@ git clone https://github.com/jonatanocr/p6_snowtricks.git
 ### 3. Configuration and dependencies
 ```
 cd p6_snowtricks
+edit .env.exemple to .env file to match your configuration
 # make Composer install the project's dependencies into vendor/
 composer install
-edit .env.exemple to .env file to match your configuration
 ```
 
 ### 4. Set the database
