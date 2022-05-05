@@ -37,7 +37,7 @@ yarn install --force
 yarn encore production
 ```
 
-### 5. Enjoy
+### 6. Enjoy
 ```
 symfony server:start
 ```
