@@ -18,6 +18,7 @@ class DeleteTrickPictureController extends AbstractController
      */
     public function deletePicture(Request $request, int $id): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $trickId = $request->get('trick_id');
         $trickPicture = $this->getDoctrine()
             ->getRepository(TrickPicture::class)

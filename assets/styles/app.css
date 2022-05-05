@@ -7,6 +7,10 @@ body {
   font-family: 'Shadows Into Light', cursive;
 }
 
+#navbar {
+  background-color: #e3f2fd;
+}
+
 .homepage_image_div {
   height: 100vh !important;
   max-width: 100vw !important;
@@ -156,6 +160,49 @@ body {
 #linkAddUrl {
   text-decoration: none;
   color: black;
+}
+
+#trick_card_form_delete {
+  display: inline-block;
+}
+
+#add_new_trick_p {
+  font-size: 2em;
+}
+
+#add_new_trick_a {
+  text-align: right;
+  padding-right: 4em;
+}
+
+.trick_detail_left_col {
+  text-align: right;
+}
+
+.a_txt_deco_none {
+  text-decoration: none;
+}
+
+#form_add_video {
+  display: inline-block;
+  justify-content: center;
+  text-align: center;
+}
+
+.updt_trick_pic_form {
+  display: inline-block;
+}
+
+.inline {
+  display: inline-block;
+}
+
+.youtube_input {
+  margin: auto;
+}
+
+.updt_trick_video_div {
+  display: flex;
 }
 
 @media (max-width:481px)  {

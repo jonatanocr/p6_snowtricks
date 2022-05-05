@@ -17,6 +17,7 @@ class EditTrickVideoController extends AbstractController
      */
     public function editVideo(Request $request, int $id): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $trickId = $request->get('trick_id');
         $trickVideo = $this->getDoctrine()
             ->getRepository(TrickVideo::class)

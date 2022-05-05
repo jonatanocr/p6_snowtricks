@@ -25,6 +25,7 @@ class UpdateTrickController extends AbstractController
      */
     public function updateTrick(Request $request, int $id, SluggerInterface $slugger): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $entityManager = $this->getDoctrine()->getManager();
         $trick = new Trick();
         $trick = $entityManager->getRepository(Trick::class)->find($id);

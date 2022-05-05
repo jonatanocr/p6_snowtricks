@@ -19,6 +19,7 @@ class DeleteTrickVideoController extends AbstractController
      */
     public function deleteVideo(Request $request, int $id): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $trickId = $request->get('trick_id');
         $trickVideo = $this->getDoctrine()
             ->getRepository(TrickVideo::class)
