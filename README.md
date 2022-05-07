@@ -29,7 +29,7 @@ php bin/console doctrine:database:create
 php bin/console doctrine:migrations:migrate
 #(optional) if you have some trouble to load the tables (error: There is no active transaction) you can fix it with updating doctrine bundle
 composer update doctrine/migrations && composer require doctrine/doctrine-migrations-bundle:^3.1.1
-# You can load the fixtures
+# You can load the fixtures (2 users are already created to test the website, username1 and username2 with 'password' as password)
 php bin/console doctrine:fixtures:load
 ```
 
