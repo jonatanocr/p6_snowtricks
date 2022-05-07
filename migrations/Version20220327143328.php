@@ -21,13 +21,13 @@ final class Version20220327143328 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE trick ADD main_picture VARCHAR(255) DEFAULT NULL');
-        $this->addSql('ALTER TABLE trick_picture DROP main_image');
+        //$this->addSql('ALTER TABLE trick_picture DROP main_image');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE trick DROP main_picture');
-        $this->addSql('ALTER TABLE trick_picture ADD main_image TINYINT(1) DEFAULT NULL');
+        //$this->addSql('ALTER TABLE trick_picture ADD main_image TINYINT(1) DEFAULT NULL');
     }
 }
