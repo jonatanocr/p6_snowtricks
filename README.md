@@ -16,7 +16,9 @@ git clone https://github.com/jonatanocr/p6_snowtricks.git
 ### 3. Configuration and dependencies
 ```
 cd p6_snowtricks
-edit .env.exemple to .env file to match your configuration
+# edit .env.exemple to .env file to match your configuration
+# to configure the email, you can follow this documentation https://symfony.com/doc/current/mailer.html#installation
+
 # make Composer install the project's dependencies into vendor/
 composer install
 ```
