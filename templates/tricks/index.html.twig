@@ -17,7 +17,7 @@
     <div id="tricks_block">
         {% for trick in tricks %}
             {% if loop.index == 1 or loop.index%5 == 0 %}
-                <div class="row justify-content-center">
+                <div class="row justify-content-center trick_row">
             {% endif %}
                 {% set mainPicture = '' %}
                 {% if mainPicture and mainPicture is not null %}
