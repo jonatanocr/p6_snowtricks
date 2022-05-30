@@ -13,7 +13,7 @@ body {
 
 .homepage_image_div {
   height: 100vh !important;
-  max-width: 100vw !important;
+  max-width: 100% !important;
   background-repeat: no-repeat;
   background-position: center;
 }
@@ -27,6 +27,10 @@ body {
   margin-top: 3em;
 }
 /* tricks card stuff */
+.trick_row {
+  max-width: 100% !important;
+}
+
 .card_div {
   margin-left: 1em;
   margin-right: 1em;
